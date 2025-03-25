@@ -1,4 +1,5 @@
 import {useRef, useEffect, useState} from 'react';
+import './CanvasStyles.css'
 
 const PIXEL_SIZE = 10;
 const SIZE = 50;
@@ -83,23 +84,24 @@ const Canvas: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className='canvas-container'>
             <canvas
                 ref={canvasRef}
                 width={SIZE * PIXEL_SIZE}
                 height={SIZE * PIXEL_SIZE}
-                style={{border: '1px solid #000', cursor: 'crosshair'}}
                 onMouseDown={startDrawing}
                 onMouseUp={stopDrawing}
                 onMouseOut={stopDrawing}
                 onMouseMove={draw}
             />
-            <button onClick={clearCanvas}>
-                Стереть
-            </button>
-            <button>
-                Распознать
-            </button>
+            <div className='button-container'>
+                <button className='button-clear' onClick={clearCanvas}>
+                    Стереть
+                </button>
+                <button className='button-recognize'>
+                    Распознать
+                </button>
+            </div>
         </div>
     );
 }
