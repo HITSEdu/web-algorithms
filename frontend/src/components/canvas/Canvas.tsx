@@ -1,5 +1,5 @@
 import {useRef, useEffect, useState} from 'react';
-import './CanvasStyles.css'
+import './Canvas.css'
 
 const PIXEL_SIZE = 10;
 const SIZE = 50;
