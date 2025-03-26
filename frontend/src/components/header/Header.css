@@ -1,20 +1,23 @@
 .App-header {
-    height: 7vh;
     width: 100vw;
-    margin-bottom: 3vh;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5vh;
     overflow: hidden;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: #0d1117;
 }
 
 .App-header-list {
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     margin: 0;
 }
 
 .nav-item {
-    display: flex;
+    display: inline-block;
 }
 
 .nav-item button {
@@ -26,9 +29,32 @@
     background-color: transparent;
     color: #ddd;
     font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.nav-item button:hover {
-    color: rgb(21, 32, 43);
-    background-color: #fff;
+.nav-item button:not(:active):hover,
+.nav-item button:focus {
+    background-color: #1a1f24;
+    outline: none;
+}
+
+.nav-item button::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0.33rem;
+    width: 100%;
+    background-color: #2f81f7;
+    border-radius: 5px;
+    opacity: 0;
+}
+
+.nav-item button:hover::before {
+    opacity: 0.5;
+}
+
+.nav-item button.active::before {
+    opacity: 1;
 }

@@ -83,8 +83,11 @@ const Canvas: React.FC = () => {
         }
     };
 
+    const requestData = () => {
+    }
+
     return (
-        <div className='canvas-container'>
+        <section className='canvas-container'>
             <canvas
                 ref={canvasRef}
                 width={SIZE * PIXEL_SIZE}
@@ -102,7 +105,7 @@ const Canvas: React.FC = () => {
                     Распознать
                 </button>
             </div>
-        </div>
+        </section>
     );
 }
 
