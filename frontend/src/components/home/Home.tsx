@@ -1,51 +1,40 @@
 import './Home.css'
+import AStarSection from "../svg/AStarSection";
+import GeneticsSection from "../svg/GeneticsSection";
+import ClusterSection from "../svg/ClusterSection";
+import AntsSection from "../svg/AntsSection";
+import TreeSection from "../svg/TreeSection";
+import NeuralSection from "../svg/NeuralSection";
+import {useResize} from "../../hooks/useResize";
 
-const Home: React.FC = () => {
+interface HomeProps {
+    onPageChange: (page: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({onPageChange}) => {
+    const size = useResize(20, 65);
 
     return (
-        <section className='home-container'>
-            <div className='home-card'>
-                <div className='home-card__img'>
-
-                </div>
-                <span className='home-card__name'>
-                    daneelez
-                </span>
-                <p className='home-card__description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias distinctio doloremque
-                    ducimus eius eligendi hic incidunt ipsum iure nulla numquam obcaecati officia quae quaerat sint
-                    sunt, totam voluptatibus voluptatum?
-                </p>
-            </div>
-
-            <div className='home-card'>
-                <div className='home-card__img'>
-
-                </div>
-                <span className='home-card__name'>
-                    kqkqkqkqkqk
-                </span>
-                <p className='home-card__description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias distinctio doloremque
-                    ducimus eius eligendi hic incidunt ipsum iure nulla numquam obcaecati officia quae quaerat sint
-                    sunt, totam voluptatibus voluptatum?
-                </p>
-            </div>
-
-            <div className='home-card'>
-                <div className='home-card__img'>
-
-                </div>
-                <span className='home-card__name'>
-                    srgrsj
-                </span>
-                <p className='home-card__description'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias distinctio doloremque
-                    ducimus eius eligendi hic incidunt ipsum iure nulla numquam obcaecati officia quae quaerat sint
-                    sunt, totam voluptatibus voluptatum?
-                </p>
-            </div>
-        </section>
+        <div className='home-container'>
+            <section className='home-section' onClick={(): void => onPageChange('A*')}>
+                <AStarSection size={size}/>
+            </section>
+            <section className='home-section' onClick={(): void => onPageChange('cluster')}>
+                <ClusterSection size={size}/>
+            </section>
+            <section className='home-section' onClick={(): void => onPageChange('genetics')}>
+                <GeneticsSection size={size}/>
+            </section>
+            <section className='home-section' onClick={(): void => onPageChange('ants')}>
+                <AntsSection size={size}/>
+            </section>
+            <section className='home-section' onClick={(): void => onPageChange('tree')}>
+                <TreeSection size={size}/>
+            </section>
+            <section className='home-section' onClick={(): void => onPageChange('neural')}>
+                <NeuralSection size={size}/>
+            </section>
+        </div>
     );
 };
 

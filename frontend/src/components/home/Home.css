@@ -1,45 +1,14 @@
 .home-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem;
     flex-direction: row;
-    width: 80vw;
-    height: 80vh;
-    margin: auto;
-    justify-content: center;
-    background-color: #ddd;
-    border-radius: 5rem;
+    justify-items: center;
+    align-items: center;
+    gap: 1rem;
 }
 
-.home-card {
-    width: 17rem;
-    height: 22.5rem;
-    background: #171717;
-    border-radius: 3rem;
-    margin: 2rem;
+.home-section {
     display: flex;
-    flex-direction: column;
-}
-
-.home-card__name {
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    display: block;
-    font-size: 2rem;
-}
-
-.home-card__description {
-    font-weight: 400;
-    color: white;
-    display: block;
-    text-align: center;
-    font-size: 1rem;
-    margin: 1rem;
-}
-
-.home-card__img {
-    width: 4.8rem;
-    height: 4.8rem;
-    background: white;
-    border-radius: 15px;
-    margin: 1rem auto;
+    padding: 0.75rem;
 }
