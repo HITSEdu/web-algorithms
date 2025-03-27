@@ -1,0 +1,18 @@
+.footer {
+    background-color: #212024;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+}
+
+
+.footer-span p {
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 100%;
+    color: #FFFFFF4D;
+}
+
+.footer svg {
+    margin-inline: 0 0.5em;
+}

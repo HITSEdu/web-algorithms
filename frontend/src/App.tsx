@@ -1,15 +1,39 @@
-import React from 'react';
+import {useState} from 'react';
 import './App.css';
-import Canvas from "./components/canvas/Canvas";
+import NeuralNet from "./components/NeuralNet/NeuralNet";
 import Header from "./components/header/Header";
+import Home from "./components/home/Home";
+import Footer from "./components/footer/Footer";
+import Navigation from "./components/navigation/Navigation";
+import LeftPointer from "./components/Pointers/LeftPointer";
+import RightPointer from "./components/Pointers/RightPointer";
 
-function App() {
-  return (
-      <div className="App">
-          <Header/>
-          <Canvas/>
-      </div>
-  );
+const App: React.FC = () => {
+    const [page, setPage] = useState('home');
+    const [title, setTitle] = useState('Приближенные вычисления');
+
+    const handlePageChange = (page: string, title?: string) => {
+        setPage(page);
+        if (title) {
+            setTitle(title);
+        }
+    }
+
+    return (
+        <div className="app-container">
+            <div className="content">
+                <Header page={page} title={title}/>
+                {page !== 'home' && <Navigation onPageChange={handlePageChange} page={page}/>}
+                <div className="main-content">
+                    <LeftPointer page={page} onPageChange={handlePageChange}/>
+                    {page === 'home' && <Home onPageChange={handlePageChange}/>}
+                    {page === 'neural' && <NeuralNet/>}
+                    <RightPointer page={page} onPageChange={handlePageChange}/>
+                </div>
+            </div>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;

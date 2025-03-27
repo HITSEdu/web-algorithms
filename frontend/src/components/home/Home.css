@@ -1,0 +1,14 @@
+.home-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.home-section {
+    display: flex;
+    padding: 0.75rem;
+}

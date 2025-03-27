@@ -1,34 +1,16 @@
-.App-header {
-    height: 7vh;
-    width: 100vw;
-    margin-bottom: 3vh;
-    overflow: hidden;
-}
-
-.App-header-list {
-    list-style-type: none;
+.header {
+    background-color: #212024;
+    justify-content: space-between;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 0;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
 }
 
-.nav-item {
-    display: flex;
-}
-
-.nav-item button {
-    white-space: none;
-    position: relative;
-    border: none;
-    margin: 0 0.5rem;
-    height: 3rem;
-    background-color: transparent;
-    color: #ddd;
-    font-size: 1.2rem;
-}
-
-.nav-item button:hover {
-    color: rgb(21, 32, 43);
-    background-color: #fff;
+.header-h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
+    line-height: 100%;
+    color: #D1D1D1;
 }

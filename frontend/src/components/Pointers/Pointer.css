@@ -1,0 +1,25 @@
+.LeftPointer {
+    position: absolute;
+    left: 0;
+    top: 35%;
+    background-color: #CA50D9;
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.RightPointer {
+    position: absolute;
+    right: 0;
+    top: 35%;
+    background-color: #3BACD9;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
