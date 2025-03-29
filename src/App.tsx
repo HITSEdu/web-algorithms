@@ -1,13 +1,13 @@
 import {useState} from 'react';
 import './App.css';
-import NeuralNet from "./components/neuralNet/NeuralNet";
+import NeuralNet from "./components/screens/neural_network/NeuralNetwork";
 import Header from "./components/header/Header";
-import Home from "./components/home/Home";
+import Home from "./components/screens/home/Home";
 import Footer from "./components/footer/Footer";
 import Navigation from "./components/navigation/Navigation";
-import LeftPointer from "./components/Pointers/LeftPointer";
-import RightPointer from "./components/Pointers/RightPointer";
-import AStar from "./components/aStar/AStar";
+import LeftPointer from "./components/pointers/LeftPointer";
+import RightPointer from "./components/pointers/RightPointer";
+import AStar from "./components/screens/a_star/AStar";
 
 const App: React.FC = () => {
     const [page, setPage] = useState('home');

@@ -1,6 +1,6 @@
 import './Controls.css'
-import IconPlus from "../svg/IconPlus";
-import IconMinus from "../svg/IconMinus";
+import IconPlus from "../icons/IconPlus";
+import IconMinus from "../icons/IconMinus";
 import {useResize} from "../../hooks/useResize";
 
 interface ControlsProps {

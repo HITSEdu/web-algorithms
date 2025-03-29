@@ -1,6 +1,6 @@
-import {useCanvas} from "../../hooks/useCanvas";
-import './NeuralNet.css'
-import {useResize} from "../../hooks/useResize";
+import {useCanvas} from "../../../hooks/useCanvas";
+import './NeuralNetwork.css'
+import {useResize} from "../../../hooks/useResize";
 
 const NeuralNet: React.FC = () => {
     const size = 50;

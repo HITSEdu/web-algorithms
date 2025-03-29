@@ -1,12 +1,12 @@
 import './Header.css'
-import AStarIcon from "../svg/AStarIcon";
-import ClusterIcon from "../svg/ClusterIcon";
-import GeneticsIcon from "../svg/GeneticsIcon";
-import HomeIcon from "../svg/HomeIcon";
-import AntsIcon from "../svg/AntsIcon";
-import TreeIcon from "../svg/TreeIcon";
-import NeuralIcon from "../svg/NeuralIcon";
-import ChangeThemeIcon from "../svg/ChangeThemeIcon";
+import AStarIcon from "../icons/AStarIcon";
+import ClusterIcon from "../icons/ClusterIcon";
+import GeneticsIcon from "../icons/GeneticsIcon";
+import HomeIcon from "../icons/HomeIcon";
+import AntsIcon from "../icons/AntsIcon";
+import TreeIcon from "../icons/TreeIcon";
+import NeuralIcon from "../icons/NeuralIcon";
+import ChangeThemeIcon from "../icons/ChangeThemeIcon";
 import {useResize} from "../../hooks/useResize";
 
 interface HeaderProps {
@@ -20,10 +20,10 @@ const Header: React.FC<HeaderProps> = ({page, title}) => {
     return (
         <header className='header'>
             <div className='header-svg'>
+                {page === 'home' && (<HomeIcon size={size}/>)}
                 {page === 'A*' && (<AStarIcon size={size}/>)}
                 {page === 'cluster' && (<ClusterIcon size={size}/>)}
                 {page === 'genetics' && (<GeneticsIcon size={size}/>)}
-                {page === 'home' && (<HomeIcon size={size}/>)}
                 {page === 'ants' && (<AntsIcon size={size}/>)}
                 {page === 'tree' && (<TreeIcon size={size}/>)}
                 {page === 'neural' && (<NeuralIcon size={size}/>)}

@@ -10,5 +10,5 @@
 
 .home-section {
     display: flex;
-    padding: 0.75rem;
+    border-radius: 8px;
 }

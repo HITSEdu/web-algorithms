@@ -1,5 +1,5 @@
 import './Info.css'
-import IconInfo from "../svg/IconInfo";
+import IconInfo from "../icons/IconInfo";
 import {useResize} from "../../hooks/useResize";
 
 type Cluster = {

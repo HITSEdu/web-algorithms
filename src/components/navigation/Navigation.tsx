@@ -10,6 +10,12 @@ const Navigation: React.FC<NavigationProps> = ({onPageChange, page}: NavigationP
         <nav className="nav">
             <ul className="nav-list">
                 <li className="nav-item">
+                    <button className={page === 'home' ? 'active' : ''}
+                            onClick={() => onPageChange('home', 'Приближенные вычисления')}>
+                        Главная
+                    </button>
+                </li>
+                <li className="nav-item">
                     <button className={page === 'A*' ? 'active' : ''}
                             onClick={() => onPageChange('A*', 'A* алгоритм')}>
                         A*
@@ -25,12 +31,6 @@ const Navigation: React.FC<NavigationProps> = ({onPageChange, page}: NavigationP
                     <button className={page === 'genetics' ? 'active' : ''}
                             onClick={() => onPageChange('genetics', 'Генетический алгоритм')}>
                         Генетический алгоритм
-                    </button>
-                </li>
-                <li className="nav-item">
-                    <button className={page === 'home' ? 'active' : ''}
-                            onClick={() => onPageChange('home', 'Приближенные вычисления')}>
-                        Главная
                     </button>
                 </li>
                 <li className="nav-item">

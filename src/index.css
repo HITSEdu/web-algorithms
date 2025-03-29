@@ -16,11 +16,13 @@ article, aside, canvas, footer, header, nav, section {
     vertical-align: baseline;
 }
 
+button {
+    font-family: "Tektur";
+}
+
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    font-family: "Tektur";
     background-color: #2C2D30;
     line-height: 1;
     min-height: 100vh;

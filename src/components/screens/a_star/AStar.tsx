@@ -1,10 +1,10 @@
-import './AStar.css'
-import Grid from "../grid/Grid";
-import {useResize} from "../../hooks/useResize";
-import {useGrid} from "../../hooks/useGrid";
-import Controls from "../controls/Controls";
 import {useState} from "react";
-import Info from "../info/Info";
+import './AStar.css';
+import { useResize } from "../../../hooks/useResize";
+import { useGrid } from "../../../hooks/useGrid";
+import Grid from "../../grid/Grid";
+import Controls from "../../controls/Controls";
+import Info from "../../info/Info";
 
 const AStar: React.FC = () => {
     const pixelSize = Math.ceil(useResize(125, 15));

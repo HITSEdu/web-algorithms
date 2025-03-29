@@ -1,11 +1,11 @@
 import './Home.css'
-import AStarSection from "../svg/AStarSection";
-import GeneticsSection from "../svg/GeneticsSection";
-import ClusterSection from "../svg/ClusterSection";
-import AntsSection from "../svg/AntsSection";
-import TreeSection from "../svg/TreeSection";
-import NeuralSection from "../svg/NeuralSection";
-import {useResize} from "../../hooks/useResize";
+import AStarSection from "../../icons/AStarSection";
+import GeneticsSection from "../../icons/GeneticsSection";
+import ClusterSection from "../../icons/ClusterSection";
+import AntsSection from "../../icons/AntsSection";
+import TreeSection from "../../icons/TreeSection";
+import NeuralSection from "../../icons/NeuralSection";
+import {useResize} from "../../../hooks/useResize";
 
 interface HomeProps {
     onPageChange: (page: string) => void;

@@ -2,15 +2,16 @@
     background-color: #212024;
     display: flex;
     align-items: flex-end;
-    padding: 1rem;
+    padding: 0.75rem;
 }
 
 
 .footer-span p {
     font-weight: 400;
-    font-size: 1em;
+    font-size: 0.8em;
     line-height: 100%;
     color: #FFFFFF4D;
+    user-select: none;
 }
 
 .footer svg {
