@@ -1,0 +1,31 @@
+.info-container {
+    background-color: #D1D1D1;
+    margin: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.25rem;
+    align-items: center;
+}
+
+.info-cluster-text p {
+    font-family: Tektur, serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #212024;
+}
+
+.info-cluster {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-inline: 0.2rem;
+}
+
+.info-cluster-icon {
+    border: 0.2rem solid #2C2D30;
+    border-radius: 0.25rem;
+    padding: 0.3rem;
+}

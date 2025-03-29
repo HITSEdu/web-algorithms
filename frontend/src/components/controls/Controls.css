@@ -1,0 +1,32 @@
+.buttons-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-down, .button-up {
+    background-color: #212024;
+    border: none;
+}
+
+.button-down {
+    border-bottom-left-radius: 15%;
+    border-top-left-radius: 15%;
+}
+
+.button-up {
+    border-bottom-right-radius: 15%;
+    border-top-right-radius: 15%;
+}
+
+.resize-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    height: 2rem;
+}
+
+.resize-container p {
+    background-color: #D1D1D1;
+    font-family: 'Tektur', sans-serif;
+}
