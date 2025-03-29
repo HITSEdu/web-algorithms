@@ -1,14 +1,10 @@
-import {useState, useEffect} from "react";
 import {useCanvas} from "../../hooks/useCanvas";
 import './NeuralNet.css'
+import {useResize} from "../../hooks/useResize";
 
 const NeuralNet: React.FC = () => {
     const size = 50;
-    const [pixelSize, setPixelSize] = useState(5);
-
-    useEffect(() => {
-        setPixelSize(Math.min(10, window.innerHeight / 100));
-    }, [window.innerHeight]);
+    const pixelSize = useResize(200, 10);
 
     const draw = (x: number, y: number) => {
         const ctx = canvasRef.current?.getContext('2d');
@@ -20,6 +16,17 @@ const NeuralNet: React.FC = () => {
 
     const {canvasRef, handleMouseDown, handleMouseUp, handleDraw, clearCanvas} =
         useCanvas({size, pixelSize, onDraw: draw});
+
+
+    async function recognize(ctx: CanvasRenderingContext2D) {
+        const response = await fetch('http://localhost:8000/recognize', {
+                method: 'POST',
+                body: JSON.stringify({ctx})
+            }
+        );
+
+        console.log(response);
+    }
 
 
     return (

@@ -1,0 +1,30 @@
+.grid {
+    display: grid;
+    background: inherit;
+}
+
+.cell-0, .cell-1, .cell-2, .cell-3, .cell-4 {
+    margin: 0.1rem;
+    border-radius: 24%;
+}
+
+.cell-0 {
+    background-color: #212024;
+}
+
+.cell-1 {
+    background-color: #FFFFFF;
+}
+
+.cell-2 {
+    background-color: #D92525;
+}
+
+.cell-3 {
+    background-color: #D98425;
+}
+
+.cell-4 {
+    background-color: #D98425;
+    opacity: .30;
+}

@@ -1,12 +1,13 @@
 import {useState} from 'react';
 import './App.css';
-import NeuralNet from "./components/NeuralNet/NeuralNet";
+import NeuralNet from "./components/neuralNet/NeuralNet";
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
 import Footer from "./components/footer/Footer";
 import Navigation from "./components/navigation/Navigation";
 import LeftPointer from "./components/Pointers/LeftPointer";
 import RightPointer from "./components/Pointers/RightPointer";
+import AStar from "./components/aStar/AStar";
 
 const App: React.FC = () => {
     const [page, setPage] = useState('home');
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                 <div className="main-content">
                     <LeftPointer page={page} onPageChange={handlePageChange}/>
                     {page === 'home' && <Home onPageChange={handlePageChange}/>}
+                    {page === 'A*' && <AStar/>}
                     {page === 'neural' && <NeuralNet/>}
                     <RightPointer page={page} onPageChange={handlePageChange}/>
                 </div>
