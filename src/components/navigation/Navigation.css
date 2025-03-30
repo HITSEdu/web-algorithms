@@ -12,6 +12,7 @@
 
 .nav-item button {
     border: none;
+    white-space: break-spaces;
     background-color: transparent;
     color: #d1d1d1;
     font-size: 0.8vw;
