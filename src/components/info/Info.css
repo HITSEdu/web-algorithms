@@ -1,10 +1,11 @@
 .info-container {
     background-color: #D1D1D1;
-    margin: 0.25rem;
+    margin: 0.5rem;
     display: flex;
     flex-direction: row;
     border-radius: 0.25rem;
     align-items: center;
+    padding: 0.3rem;
 }
 
 .info-cluster-text p {
@@ -14,6 +15,7 @@
     line-height: 100%;
     letter-spacing: 0;
     color: #212024;
+    margin-left: 0.2rem;
 }
 
 .info-cluster {
@@ -21,11 +23,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-inline: 0.2rem;
+    margin-inline: 0.5rem;
 }
 
 .info-cluster-icon {
-    border: 0.2rem solid #2C2D30;
+    border: 0.15rem solid #2C2D30;
     border-radius: 0.25rem;
-    padding: 0.3rem;
+    padding: 0.5rem;
 }

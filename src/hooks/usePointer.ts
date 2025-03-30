@@ -50,5 +50,20 @@ export const usePointer = ({page, direction}: UsePointerProps) => {
         return (direction === 'left') ? changePageToLeft(page) : changePageToRight(page);
     }
 
-    return getNextPage(page, direction);
+    const titleData = {
+        'A*': 'A* алгоритм',
+        'home': 'Приближенные вычисления',
+        'cluster': 'Алгоритм кластеризации',
+        'genetics': 'Генетический алгоритм',
+        'ants': 'Муравьиный алгоритм',
+        'tree': 'Дерево решений',
+        'neural': 'Нейронная сеть'
+    }
+
+    const result = getNextPage(page, direction);
+
+    return {
+        page: result,
+        title: titleData[result]
+    };
 }

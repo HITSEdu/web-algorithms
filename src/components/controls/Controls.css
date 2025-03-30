@@ -1,11 +1,18 @@
 .buttons-group {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 0.75rem;
 }
 
 .button-down, .button-up {
     background-color: #212024;
     border: none;
+    cursor: pointer;
+    height: 2.25rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button-down {
@@ -20,13 +27,43 @@
 
 .resize-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: row;
-    height: 2rem;
+    align-items: center;
+    height: 2.25rem;
+    width: 12rem;
 }
 
 .resize-container p {
+    text-align: center;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.2rem;
+
     background-color: #D1D1D1;
-    font-family: 'Tektur', sans-serif;
+}
+
+.commands-container {
+    background-color: #212024;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.commands-container button {
+    background-color: #212024;
+    padding: 0;
+    color: #D1D1D1;
+    font-size: 1.2em;
+    border: none;
+    height: 3rem;
+    width: 10rem;
+    display: flex;
+    align-items: center;
 }

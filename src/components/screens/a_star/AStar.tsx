@@ -7,7 +7,7 @@ import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
 
 const AStar: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(125, 15));
+    const pixelSize = Math.ceil(useResize(100, 15));
     const [fullness, setFullness] = useState(35);
 
     const command = (value: number) => {
@@ -17,8 +17,8 @@ const AStar: React.FC = () => {
     const {grid, size, handleClick, sizeUp, sizeDown, setGrid} = useGrid(
         {
             initSize: 15,
-            minSize: 1,
-            maxSize: 50,
+            minSize: 5,
+            maxSize: 25,
             command: command,
         });
 
@@ -68,7 +68,7 @@ const AStar: React.FC = () => {
                 setGrid(prev => {
                     const newGrid = prev.map(row => [...row]);
                     data.path.forEach(([row, col]: [number, number]) => {
-                        if (prev[row][col] != 2 && prev[row][col] != 3)
+                        if (prev[row][col] !== 2 && prev[row][col] !== 3)
                             newGrid[row][col] = 4;
                     });
                     return newGrid;
@@ -82,7 +82,7 @@ const AStar: React.FC = () => {
     const infoData = [
         {title: 'Начало', color: '#D92525'},
         {title: 'Конец', color: '#D98425'},
-        {title: 'Путь', color: 'yellow'},
+        {title: 'Путь', color: 'rgba(217, 132, 37, 0.3)'},
         {title: 'Стенки', color: '#FFFFFF'},
     ];
 

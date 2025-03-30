@@ -9,6 +9,8 @@ interface GridProps {
 
 const Grid: React.FC<GridProps> = ({grid, size, pixelSize, handleClick}) => {
 
+    pixelSize = pixelSize * 21 / size;
+
     return (
         <div className="grid"
              style={{

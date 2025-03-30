@@ -8,7 +8,7 @@ import NeuralSection from "../../icons/NeuralSection";
 import {useResize} from "../../../hooks/useResize";
 
 interface HomeProps {
-    onPageChange: (page: string) => void;
+    onPageChange: (page: string, title: string) => void;
 }
 
 const Home: React.FC<HomeProps> = ({onPageChange}) => {
@@ -16,22 +16,22 @@ const Home: React.FC<HomeProps> = ({onPageChange}) => {
 
     return (
         <div className='home-container'>
-            <section className='home-section' onClick={(): void => onPageChange('A*')}>
+            <section className='home-section' onClick={(): void => onPageChange('A*', 'A* алгоритм')}>
                 <AStarSection size={size}/>
             </section>
-            <section className='home-section' onClick={(): void => onPageChange('cluster')}>
+            <section className='home-section' onClick={(): void => onPageChange('cluster', 'Алгоритм кластеризации')}>
                 <ClusterSection size={size}/>
             </section>
-            <section className='home-section' onClick={(): void => onPageChange('genetics')}>
+            <section className='home-section' onClick={(): void => onPageChange('genetics', 'Генетический алгоритм')}>
                 <GeneticsSection size={size}/>
             </section>
-            <section className='home-section' onClick={(): void => onPageChange('ants')}>
+            <section className='home-section' onClick={(): void => onPageChange('ants', 'Муравьиный алгоритм')}>
                 <AntsSection size={size}/>
             </section>
-            <section className='home-section' onClick={(): void => onPageChange('tree')}>
+            <section className='home-section' onClick={(): void => onPageChange('tree', 'Дерево решений')}>
                 <TreeSection size={size}/>
             </section>
-            <section className='home-section' onClick={(): void => onPageChange('neural')}>
+            <section className='home-section' onClick={(): void => onPageChange('neural', 'Нейронная сеть')}>
                 <NeuralSection size={size}/>
             </section>
         </div>
