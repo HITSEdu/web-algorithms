@@ -2,6 +2,8 @@ import './Controls.css'
 import IconPlus from "../icons/IconPlus";
 import IconMinus from "../icons/IconMinus";
 import {useResize} from "../../hooks/useResize";
+import IconGenerate from "../icons/IconGenerate";
+import IconPath from "../icons/IconPath";
 
 interface ControlsProps {
     size: number;
@@ -43,14 +45,18 @@ const Controls: React.FC<ControlsProps> = ({
                 <button className='button-down' onClick={() => fullnessDown()}>
                     <IconMinus size={iconSize}/>
                 </button>
-                <p>{fullnes}</p>
+                <p>{fullnes}%</p>
                 <button className='button-up' onClick={() => fullnessUp()}>
                     <IconPlus size={iconSize}/>
                 </button>
             </div>
-            <div className='commands-container'>
-                <button className='button-generate' onClick={onGenerate}>Сгенерировать</button>
-                <button className='button-path' onClick={onCommand}>{commandName}</button>
+            <div className='commands-container' onClick={onGenerate}>
+                <button className='button-generate'>Сгенерировать</button>
+                <IconGenerate size={iconSize}/>
+            </div>
+            <div className='commands-container' onClick={onCommand}>
+                <button className='button-path'>{commandName}</button>
+                <IconPath size={iconSize}/>
             </div>
         </div>);
 };

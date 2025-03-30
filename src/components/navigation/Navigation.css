@@ -20,11 +20,11 @@
 }
 
 .nav-item button {
-    white-space: none;
+    white-space: break-spaces;
     position: relative;
     border: none;
     margin: 0 0.5rem;
-    padding-block: 1.5rem;
+    padding-block: 1.25rem;
     background-color: transparent;
     color: #ddd;
     font-size: 1rem;
