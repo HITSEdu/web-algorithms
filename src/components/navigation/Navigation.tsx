@@ -18,7 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({onPageChange, page}: NavigationP
                 <li className="nav-item">
                     <button className={page === 'A*' ? 'active' : ''}
                             onClick={() => onPageChange('A*', 'A* алгоритм')}>
-                        A*
+                        A* алгоритм
                     </button>
                 </li>
                 <li className="nav-item">
