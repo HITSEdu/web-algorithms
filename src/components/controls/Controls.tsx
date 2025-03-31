@@ -4,6 +4,7 @@ import IconMinus from "../icons/IconMinus";
 import {useResize} from "../../hooks/useResize";
 import IconGenerate from "../icons/IconGenerate";
 import IconPath from "../icons/IconPath";
+import CommandButton from "./CommandButton";
 
 interface ControlsProps {
     size: number;
@@ -50,14 +51,8 @@ const Controls: React.FC<ControlsProps> = ({
                     <IconPlus size={iconSize}/>
                 </button>
             </div>
-            <div className='commands-container' onClick={onGenerate}>
-                <button className='button-generate'>Сгенерировать</button>
-                <IconGenerate size={iconSize}/>
-            </div>
-            <div className='commands-container' onClick={onCommand}>
-                <button className='button-path'>{commandName}</button>
-                <IconPath size={iconSize}/>
-            </div>
+            <CommandButton commandName='Сгенерировать' Icon={IconGenerate} onCommand={onGenerate} iconSize={iconSize}/>
+            <CommandButton commandName={commandName} Icon={IconPath} onCommand={onCommand} iconSize={iconSize}/>
         </div>);
 };
 
