@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "REACT_APP_API_URL=https://web-algorithms-api.onrender.com npm run build",
+    "predeploy": "cross-env REACT_APP_API_URL=https://web-algorithms-api.onrender.com npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "gh-pages": "^6.3.0"
   }
 }
