@@ -1,14 +1,10 @@
-.canvas-container {
+.grid-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-canvas {
-    cursor: crosshair;
-    object-fit: contain;
-}
 
 .button-container {
     display: flex;
@@ -29,3 +25,35 @@ canvas {
     background-color: #e0e0e0;
 }
 
+.digit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.25rem;
+    width: 12rem;
+    margin: 0.75rem;
+    border-radius: 0.3rem;
+}
+
+.div-digit {
+    background-color: #212024;
+    border: none;
+    cursor: pointer;
+    height: 2.25rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.digit-container p {
+    text-align: center;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.2rem;
+
+    background-color: #D1D1D1;
+}

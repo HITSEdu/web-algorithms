@@ -3,9 +3,14 @@ import {useResize} from "../../../hooks/useResize";
 import {useGrid} from "../../../hooks/useGrid";
 import Grid from "../../grid/Grid";
 import {useState} from "react";
+import CommandButton from "../../controls/CommandButton";
+import IconRecognize from "../../icons/IconRecognize";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const NeuralNet: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(80, 30));
+    const pixelSize = Math.ceil(useResize(100, 30));
+    const iconSize = useResize(75, 20);
 
     const command = (value: number) => {
         return 1
@@ -20,6 +25,7 @@ const NeuralNet: React.FC = () => {
         });
 
     const [isDrawing, setIsDrawing] = useState(false);
+    const [digit, setDigit] = useState(-1);
 
     const handleMouseDown = (row: number, col: number) => {
         setIsDrawing(true);
@@ -38,7 +44,7 @@ const NeuralNet: React.FC = () => {
 
     async function recognize() {
         try {
-            const response = await fetch('http://localhost:8000/recognize', {
+            const response = await fetch(`${API_URL}/recognize`, {
                     method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({pixels: grid})
@@ -51,7 +57,7 @@ const NeuralNet: React.FC = () => {
             }
 
             const data = await response.json();
-            alert(data?.digit);
+            setDigit(data?.digit);
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
         }
@@ -75,11 +81,14 @@ const NeuralNet: React.FC = () => {
                     border: '1px solid #2C2D30',
                 }}
             />
-            <div className='button-container'>
-                <button className='button-recognize' onClick={() => recognize()}>
-                    Распознать
-                </button>
+            <div className='digit-container'>
+                <div className='div-digit'>
+                </div>
+                <p>{digit >= 0 ? digit : "Loading..."}</p>
+                <div className='div-digit'>
+                </div>
             </div>
+            <CommandButton commandName='Распознать' Icon={IconRecognize} onCommand={recognize} iconSize={iconSize}/>
         </div>
     );
 }

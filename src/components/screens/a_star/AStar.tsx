@@ -6,6 +6,8 @@ import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AStar: React.FC = () => {
     const pixelSize = Math.ceil(useResize(100, 15));
     const [fullness, setFullness] = useState(35);
@@ -32,7 +34,8 @@ const AStar: React.FC = () => {
 
     const generateGrid = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/generate?size=${size}&fullness=${fullness}`);
+            console.log(API_URL);
+            const response = await fetch(`${API_URL}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
                 console.error('Не удалось сгенерировать!');
@@ -48,7 +51,7 @@ const AStar: React.FC = () => {
 
     const findPath = async () => {
         try {
-            const response = await fetch('http://localhost:8000/find-path', {
+            const response = await fetch(`${API_URL}/find-path`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
