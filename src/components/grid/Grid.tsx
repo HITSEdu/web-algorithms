@@ -5,9 +5,11 @@ interface GridProps {
     size: number;
     pixelSize: number;
     handleClick: (row: number, cell: number) => void;
+    handleMouseEnter?: (row: number, cell: number) => void;
+    style?: React.CSSProperties;
 }
 
-const Grid: React.FC<GridProps> = ({grid, size, pixelSize, handleClick}) => {
+const Grid: React.FC<GridProps> = ({grid, size, pixelSize, handleClick, handleMouseEnter, style}) => {
 
     pixelSize = pixelSize * 21 / size;
 
@@ -20,9 +22,11 @@ const Grid: React.FC<GridProps> = ({grid, size, pixelSize, handleClick}) => {
             {grid.map((row, rowIndex) => (
                 row.map((cell, cellIndex) => (
                     <div
+                        style={{...style}}
                         key={`${rowIndex}-${cellIndex}`}
                         className={`cell-${cell}`}
-                        onClick={() => handleClick(rowIndex, cellIndex)}
+                        onMouseDown={() => handleClick(rowIndex, cellIndex)}
+                        onMouseEnter={handleMouseEnter ? () => handleMouseEnter(rowIndex, cellIndex) : undefined}
                     />
                 ))
             ))}
