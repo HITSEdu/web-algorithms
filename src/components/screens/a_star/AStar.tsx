@@ -34,7 +34,6 @@ const AStar: React.FC = () => {
 
     const generateGrid = async () => {
         try {
-            console.log(API_URL);
             const response = await fetch(`${API_URL}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
