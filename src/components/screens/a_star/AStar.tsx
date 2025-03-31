@@ -1,7 +1,7 @@
 import {useState} from "react";
 import './AStar.css';
-import { useResize } from "../../../hooks/useResize";
-import { useGrid } from "../../../hooks/useGrid";
+import {useResize} from "../../../hooks/useResize";
+import {useGrid} from "../../../hooks/useGrid";
 import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
