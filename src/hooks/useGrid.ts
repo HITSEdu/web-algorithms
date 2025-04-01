@@ -28,12 +28,22 @@ export const useGrid = ({initSize, minSize = 1, maxSize = 52, command}: useGridP
         setGrid(createEmptyGrid());
     }, [createEmptyGrid]);
 
-    const handleClick = (row: number, cell: number) => {
-        setGrid(prev => {
-            const newGrid = prev.map(row => [...row]);
-            newGrid[row][cell] = command(newGrid[row][cell]);
-            return newGrid;
-        });
+    const handleClick = (row: number, cell: number, flag?: boolean) => {
+        if (!flag) {
+            setGrid(prev => {
+                const newGrid = prev.map(row => [...row]);
+                newGrid[row][cell] = command(newGrid[row][cell]);
+                return newGrid;
+            });
+        } else {
+            setGrid(prev => {
+                const newGrid = prev.map((rowArr, rowIndex) =>
+                    rowArr.map((el, elIndex) => command(el - 1))
+                );
+                newGrid[row][cell] = command(newGrid[row][cell]);
+                return newGrid;
+            });
+        }
     };
 
     return {grid, size, handleClick, sizeUp, sizeDown, setGrid};

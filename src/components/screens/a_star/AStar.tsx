@@ -67,14 +67,26 @@ const AStar: React.FC = () => {
             const data = await response.json();
 
             if (data?.path) {
-                setGrid(prev => {
-                    const newGrid = prev.map(row => [...row]);
-                    data.path.forEach(([row, col]: [number, number]) => {
-                        if (prev[row][col] !== 2 && prev[row][col] !== 3)
+                let index = 0;
+
+                const interval = setInterval(() => {
+                    if (index >= data.path.length) {
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    const [row, col] = data.path[index];
+
+                    setGrid(prev => {
+                        const newGrid = prev.map(row => [...row]);
+                        if (newGrid[row][col] !== 2 && newGrid[row][col] !== 3) {
                             newGrid[row][col] = 4;
+                        }
+                        return newGrid;
                     });
-                    return newGrid;
-                });
+
+                    index++;
+                }, 250);
             }
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
@@ -95,6 +107,7 @@ const AStar: React.FC = () => {
                 size={size}
                 pixelSize={pixelSize}
                 handleClick={handleClick}
+                flag={true}
             />
 
             <Info listOfClusters={infoData}/>
