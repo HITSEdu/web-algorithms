@@ -1,4 +1,4 @@
-# Модуль 6. Алгоритмы приближенных вычислений
+# [Модуль 6. Алгоритмы приближенных вычислений](https://hitsedu.github.io/web-algorithms/)
 
 ---  
 
@@ -9,7 +9,7 @@
 - [ ] Генетический алгоритм  
 - [ ] Муравьиный алгоритм  
 - [ ] Дерево решений  
-- [ ] Нейронная сеть  
+- [x] Нейронная сеть  
 
 ## [Макет в Figma](https://www.figma.com/design/xTi926ZMDnjgsSsLOreMeX/HITSEdu?node-id=1-3&p=f&t=ye79poNDUIUtgJai-0)  
 
