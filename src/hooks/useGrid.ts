@@ -38,7 +38,7 @@ export const useGrid = ({initSize, minSize = 1, maxSize = 52, command}: useGridP
         } else {
             setGrid(prev => {
                 const newGrid = prev.map((rowArr, rowIndex) =>
-                    rowArr.map((el, elIndex) => command(el - 1))
+                    rowArr.map((el, elIndex) => command(Math.min(3, el - 1)))
                 );
                 newGrid[row][cell] = command(newGrid[row][cell]);
                 return newGrid;

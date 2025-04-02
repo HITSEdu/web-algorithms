@@ -3,7 +3,7 @@
     background: inherit;
 }
 
-.cell-0, .cell-1, .cell-2, .cell-3, .cell-4 {
+.cell-0, .cell-1, .cell-2, .cell-3, .cell-4, .cell-5 {
     margin: 0.1rem;
     border-radius: 24%;
 }
@@ -27,4 +27,8 @@
 .cell-4 {
     background-color: #D98425;
     opacity: .30;
+}
+
+.cell-5 {
+    background-color: dodgerblue;
 }

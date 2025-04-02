@@ -9,6 +9,8 @@
 .button-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 25rem;
 }
 
 .button-clear,

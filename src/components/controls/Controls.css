@@ -48,6 +48,7 @@
 .commands-container {
     background-color: #212024;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 3rem;

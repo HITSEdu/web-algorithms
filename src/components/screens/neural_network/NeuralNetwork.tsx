@@ -5,6 +5,7 @@ import Grid from "../../grid/Grid";
 import {useState} from "react";
 import CommandButton from "../../controls/CommandButton";
 import IconRecognize from "../../icons/IconRecognize";
+import IconGenerate from "../../icons/IconGenerate";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -27,20 +28,44 @@ const NeuralNet: React.FC = () => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [digit, setDigit] = useState(-1);
 
+    const isCorrect = (row: number, col: number) => {
+        return row >= 0 && row < 50 && col >= 0 && col < 50;
+    }
+
     const handleMouseDown = (row: number, col: number) => {
         setIsDrawing(true);
         handleClick(row, col);
+
+        if (isCorrect(row + 1, col)) handleClick(row + 1, col);
+        if (isCorrect(row - 1, col)) handleClick(row - 1, col);
+        if (isCorrect(row, col + 1)) handleClick(row, col + 1);
+        if (isCorrect(row, col - 1)) handleClick(row, col - 1);
     };
 
     const handleMouseEnter = (row: number, col: number) => {
         if (isDrawing) {
             handleClick(row, col);
+
+            if (isCorrect(row + 1, col)) handleClick(row + 1, col);
+            if (isCorrect(row - 1, col)) handleClick(row - 1, col);
+            if (isCorrect(row, col + 1)) handleClick(row, col + 1);
+            if (isCorrect(row, col - 1)) handleClick(row, col - 1);
         }
     };
+
 
     const handleMouseUp = () => {
         setIsDrawing(false);
     };
+
+    const clearCanvas = () => {
+        setGrid(prev => {
+            return prev.map((row, rowIdx) =>
+                row.map((col, colIdx) =>
+                    prev[rowIdx][colIdx] = 0
+                ));
+        });
+    }
 
     async function recognize() {
         try {
@@ -88,7 +113,10 @@ const NeuralNet: React.FC = () => {
                 <div className='div-digit'>
                 </div>
             </div>
-            <CommandButton commandName='Распознать' Icon={IconRecognize} onCommand={recognize} iconSize={iconSize}/>
+            <div className='button-container'>
+                <CommandButton commandName='Очистить' Icon={IconGenerate} onCommand={clearCanvas} iconSize={iconSize}/>
+                <CommandButton commandName='Распознать' Icon={IconRecognize} onCommand={recognize} iconSize={iconSize}/>
+            </div>
         </div>
     );
 }
