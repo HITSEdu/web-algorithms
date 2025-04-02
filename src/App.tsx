@@ -8,6 +8,7 @@ import Navigation from "./components/navigation/Navigation";
 import LeftPointer from "./components/pointers/LeftPointer";
 import RightPointer from "./components/pointers/RightPointer";
 import AStar from "./components/screens/a_star/AStar";
+import Clusterization from './components/screens/clusterization/Clusterization';
 
 const App: React.FC = () => {
     const [page, setPage] = useState('home');
@@ -28,6 +29,7 @@ const App: React.FC = () => {
                 <div className="main-content">
                     <LeftPointer page={page} onPageChange={handlePageChange}/>
                     {page === 'home' && <Home onPageChange={handlePageChange}/>}
+                    {page === 'cluster' && <Clusterization/>}
                     {page === 'A*' && <AStar/>}
                     {page === 'neural' && <NeuralNet/>}
                     <RightPointer page={page} onPageChange={handlePageChange}/>

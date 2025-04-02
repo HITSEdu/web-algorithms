@@ -32,3 +32,32 @@
 .cell-5 {
     background-color: dodgerblue;
 }
+
+.cell-10, .cell-11, .cell-12, .cell-13, .cell-14, .cell-15 {
+    margin: 0.1rem;
+    border-radius: 24%;
+}
+
+.cell-10 {
+    background-color: #3BACD9;
+}
+
+.cell-11 {
+    background-color: #82D930;
+}
+
+.cell-12 {
+    background-color: #9379FF;
+}
+
+.cell-13 {
+    background-color: #CA50D9;
+}
+
+.cell-14 {
+    background-color: #D98425;
+}
+
+.cell-15 {
+    background-color: #D9CF25;
+}
