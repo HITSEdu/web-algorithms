@@ -8,6 +8,7 @@ import IconRecognize from "../../icons/IconRecognize";
 import IconGenerate from "../../icons/IconGenerate";
 
 const API_URL = process.env.REACT_APP_API_URL;
+const PREFIX = "/neural_network"
 
 const NeuralNet: React.FC = () => {
     const pixelSize = Math.ceil(useResize(100, 30));
@@ -69,7 +70,7 @@ const NeuralNet: React.FC = () => {
 
     async function recognize() {
         try {
-            const response = await fetch(`${API_URL}/recognize`, {
+            const response = await fetch(`${API_URL}${PREFIX}/recognize`, {
                     method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({pixels: grid})

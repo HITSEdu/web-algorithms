@@ -7,6 +7,7 @@ import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
 
 const API_URL = process.env.REACT_APP_API_URL;
+const PREFIX = "/a";
 
 const AStar: React.FC = () => {
     const pixelSize = Math.ceil(useResize(100, 15));
@@ -60,7 +61,7 @@ const AStar: React.FC = () => {
     const generateGrid = async () => {
         stopAnimation();
         try {
-            const response = await fetch(`${API_URL}/generate?size=${size}&fullness=${fullness}`);
+            const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
                 console.error('Не удалось сгенерировать!');
@@ -79,7 +80,7 @@ const AStar: React.FC = () => {
         startAnimation();
 
         try {
-            const response = await fetch(`${API_URL}/find-path`, {
+            const response = await fetch(`${API_URL}${PREFIX}/find-path`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
