@@ -15,7 +15,7 @@ interface ControlsProps {
     commandName: string;
     fullnessUp: () => void;
     fullnessDown: () => void;
-    fullnes: number;
+    fullness: number;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -27,9 +27,9 @@ const Controls: React.FC<ControlsProps> = ({
                                                commandName,
                                                fullnessUp,
                                                fullnessDown,
-                                               fullnes
+                                               fullness
                                            }) => {
-    const iconSize = useResize(75, 20);
+    const iconSize = useResize(40, 30, 15, 'min');
 
     return (
         <div className='buttons-group'>
@@ -46,7 +46,7 @@ const Controls: React.FC<ControlsProps> = ({
                 <button className='button-down' onClick={() => fullnessDown()}>
                     <IconMinus size={iconSize}/>
                 </button>
-                <p>{fullnes}%</p>
+                <p>{fullness}%</p>
                 <button className='button-up' onClick={() => fullnessUp()}>
                     <IconPlus size={iconSize}/>
                 </button>

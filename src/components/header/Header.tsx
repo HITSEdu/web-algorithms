@@ -15,7 +15,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({page, title}) => {
-    const size = useResize(12, 100);
+    const size = useResize(10, 100, 20, 'min');
+    const fontSize = useResize(21, 50, 10, 'min');
 
     return (
         <header className='header'>
@@ -28,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({page, title}) => {
                 {page === 'tree' && (<TreeIcon size={size}/>)}
                 {page === 'neural' && (<NeuralIcon size={size}/>)}
             </div>
-            <h1 className='header-h1'>
+            <h1 className='header-h1' style={{ fontSize }}>
                 {title}
             </h1>
             <div className='header-svg'>

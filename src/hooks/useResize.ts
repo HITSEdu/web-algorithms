@@ -1,11 +1,29 @@
 import {useCallback, useEffect, useState} from "react";
 
-export const useResize = (k: number, mn: number) => {
-    const [size, setSize] = useState(Math.min(mn, window.innerWidth / k));
+export const useResize = (
+    k: number,
+    mx: number,
+    mn: number = 1,
+    dimension: 'width' | 'height' | 'min' | 'max' = 'height'
+) => {
+    const getDimension = useCallback(() => {
+        switch (dimension) {
+            case 'width':
+                return window.innerWidth / k;
+            case 'height':
+                return window.innerHeight / k;
+            case 'min':
+                return Math.min(window.innerWidth, window.innerHeight) / k;
+            case 'max':
+                return Math.max(window.innerWidth, window.innerHeight) / k;
+        }
+    }, [dimension, k]);
+
+    const [size, setSize] = useState(Math.max(mn, Math.min(mx, getDimension())));
 
     const handleResize = useCallback(() => {
-        setSize(Math.min(mn, window.innerWidth / k));
-    }, [k, mn])
+        setSize(Math.max(mn, Math.min(mx, getDimension())));
+    }, [getDimension, mn, mx]);
 
     useEffect(() => {
         handleResize();

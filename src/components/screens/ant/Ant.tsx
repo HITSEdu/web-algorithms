@@ -12,8 +12,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/ant";
 
 const Ant: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(100, 15));
-    const iconSize = useResize(75, 20);
+    const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
     const [fullness, setFullness] = useState(20);
     const [nutritionalValue, setNutritionalValue] = useState(5);
     const [animation, setAnimation] = useState<boolean>(true);
@@ -82,7 +81,7 @@ const Ant: React.FC = () => {
             const response = await fetch(`${API_URL}${PREFIX}/find-path`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ pixels: grid })
+                body: JSON.stringify({pixels: grid})
             });
 
             if (!response.ok) {
@@ -166,7 +165,7 @@ const Ant: React.FC = () => {
                 onCommand={findPath}
                 fullnessUp={fullnessUp}
                 fullnessDown={fullnessDown}
-                fullnes={fullness}
+                fullness={fullness}
                 commandName='Запуск'
             />
         </div>

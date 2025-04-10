@@ -30,3 +30,9 @@
     clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
     padding: 1.5rem; 
 }
+
+@media (max-width: 510px) or (max-height: 615px) {
+    .nav {
+        display: none;
+    }
+}

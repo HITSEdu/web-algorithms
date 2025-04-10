@@ -13,18 +13,21 @@ interface InfoProps {
 }
 
 const Info: React.FC<InfoProps> = ({listOfClusters}) => {
-    const size = useResize(70, 45);
+    const size = useResize(15, 30, 25, 'min');
     return (
         <div className="info-container">
             <IconInfo size={size}/>
-            {listOfClusters.map((elem, index) => (
-                <div key={index} className="info-cluster">
-                    <div className="info-cluster-icon" style={{backgroundColor: elem.color, opacity: elem?.opacity}}/>
-                    <div className="info-cluster-text">
-                        <p>{elem.title}</p>
+            <div className="info-grid">
+                {listOfClusters.map((elem, index) => (
+                    <div key={index} className="info-cluster">
+                        <div className="info-cluster-icon"
+                             style={{backgroundColor: elem.color, opacity: elem?.opacity}}/>
+                        <div className="info-cluster-text">
+                            <p>{elem.title}</p>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };

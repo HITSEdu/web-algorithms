@@ -7,9 +7,11 @@
 
 
 .button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: 0.5rem;
     width: 25rem;
 }
 
@@ -58,4 +60,10 @@
     font-size: 1.2rem;
 
     background-color: #D1D1D1;
+}
+
+@media screen and (max-width: 420px) {
+    .button-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

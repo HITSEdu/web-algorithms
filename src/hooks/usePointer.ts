@@ -11,15 +11,15 @@ export const usePointer = ({page, direction}: UsePointerProps) => {
             case 'cluster':
                 return ('genetics');
             case 'genetics':
-                return ('home');
-            case 'home':
                 return ('ants');
+            case 'home':
+                return ('A*');
             case 'ants':
                 return ('tree');
             case 'tree':
                 return ('neural');
             case 'neural':
-                return ('A*');
+                return ('home');
             default:
                 return ('home');
         }
@@ -28,15 +28,15 @@ export const usePointer = ({page, direction}: UsePointerProps) => {
     const changePageToLeft = (page: string) => {
         switch (page) {
             case 'A*':
-                return ('neural');
+                return ('home');
             case 'cluster':
                 return ('A*');
             case 'genetics':
                 return ('cluster');
             case 'home':
-                return ('genetics');
+                return ('neural');
             case 'ants':
-                return ('home');
+                return ('genetics');
             case 'tree':
                 return ('ants');
             case 'neural':
