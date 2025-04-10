@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import NeuralNet from "./components/screens/neural_network/NeuralNetwork";
 import Header from "./components/header/Header";

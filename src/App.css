@@ -16,3 +16,9 @@
     justify-content: center;
     min-height: 60vh;
 }
+
+@media (max-width: 510px) or (max-height: 615px) {
+    .main-content {
+        margin-top: 1rem;
+    }
+}

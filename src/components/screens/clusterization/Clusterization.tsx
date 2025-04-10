@@ -19,7 +19,7 @@ const COLORS = new Map<number, string>([
 ]);
 
 const Clusterization: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(100, 15));
+    const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
     const [fullness, setFullness] = useState(20);
     const [nClusters, setNClusters] = useState(2);
 
@@ -28,17 +28,17 @@ const Clusterization: React.FC = () => {
     }
 
     const {grid, size, handleClick, sizeUp, sizeDown, setGrid} = useGrid({
-            initSize: 15,
-            minSize: 5,
-            maxSize: 25,
-            command: command,
-        });
+        initSize: 15,
+        minSize: 5,
+        maxSize: 25,
+        command: command,
+    });
 
-    const fullnessUp = () => { 
+    const fullnessUp = () => {
         setFullness(prevFullness => Math.min(prevFullness + 5, 100));
     }
-    const fullnessDown = () => { 
-        setFullness(prevFullness => Math.max(prevFullness - 5, 0)); 
+    const fullnessDown = () => {
+        setFullness(prevFullness => Math.max(prevFullness - 5, 0));
     }
 
     const generateGrid = async () => {
@@ -57,13 +57,13 @@ const Clusterization: React.FC = () => {
     };
 
     const clusterize = async () => {
-        try {  
+        try {
             const response = await fetch(`${API_URL}${PREFIX}/clusterize`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ pixels: grid })
+                body: JSON.stringify({pixels: grid})
             });
             if (!response.ok) {
                 console.error('[Clusterization|clusterize] response status:', response.status);
@@ -72,27 +72,25 @@ const Clusterization: React.FC = () => {
 
             const data = await response.json();
             console.log(data);
-            if (data.status == 1) {
+            if (data.status === 1) {
                 setNClusters(data.data.k);
                 setGrid(data.data.canvas);
-            }
-            else {
+            } else {
                 console.log(data.status);
             }
         } catch (error) {
             console.error('[Clusterization|clusterize] response error:', error);
         }
     };
-    
 
 
     const colorKeys = Array.from(COLORS.keys());
     const colorCount = colorKeys.length;
 
     const infoData = [
-        { title: 'Точка', color: '#FFFFFF' },
-        { title: 'Центр', color: '#D92525' },
-        ...Array.from({ length: nClusters }, (_, i) => {
+        {title: 'Точка', color: '#FFFFFF'},
+        {title: 'Центр', color: '#D92525'},
+        ...Array.from({length: nClusters}, (_, i) => {
             const colorIndex = colorKeys[i % colorCount];
             return {
                 title: `${i + 1}`,
@@ -121,7 +119,7 @@ const Clusterization: React.FC = () => {
                 onCommand={clusterize}
                 fullnessUp={fullnessUp}
                 fullnessDown={fullnessDown}
-                fullnes={fullness}
+                fullness={fullness}
                 commandName='Выполнить'
             />
         </div>

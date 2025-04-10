@@ -11,8 +11,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/neural_network"
 
 const NeuralNet: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(100, 30));
-    const iconSize = useResize(75, 20);
+    const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
+    const iconSize = useResize(28, 25, 15);
 
     const command = (value: number) => {
         return 1
