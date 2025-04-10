@@ -61,3 +61,32 @@
 .cell-15 {
     background-color: #D9CF25;
 }
+
+.cell-102, .cell-112, .cell-122, .cell-132, .cell-142, .cell-152 {
+    border: 0.2rem solid #D92525;
+    border-radius: 24%;
+}
+
+.cell-102 {
+    background-color: #3BACD9;
+}
+
+.cell-112 {
+    background-color: #82D930;
+}
+
+.cell-122 {
+    background-color: #9379FF;
+}
+
+.cell-132 {
+    background-color: #CA50D9;
+}
+
+.cell-142 {
+    background-color: #D98425;
+}
+
+.cell-152 {
+    background-color: #D9CF25;
+}

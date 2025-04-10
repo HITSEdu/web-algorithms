@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import NeuralNet from "./components/screens/neural_network/NeuralNetwork";
 import Header from "./components/header/Header";
@@ -12,13 +12,20 @@ import Clusterization from './components/screens/clusterization/Clusterization';
 import Ant from "./components/screens/ant/Ant";
 
 const App: React.FC = () => {
-    const [page, setPage] = useState('home');
-    const [title, setTitle] = useState('Приближенные вычисления');
+    const savedPage = localStorage.getItem('activePage') || 'home';
+    const savedTitle = localStorage.getItem('activeTitle') || 'Приближенные вычисления';
+
+    const [page, setPage] = useState(savedPage);
+    const [title, setTitle] = useState(savedTitle);
 
     const handlePageChange = (page: string, title?: string) => {
         setPage(page);
         if (title) {
             setTitle(title);
+        }
+        localStorage.setItem('activePage', page);
+        if (title) {
+            localStorage.setItem('activeTitle', title);
         }
     }
 

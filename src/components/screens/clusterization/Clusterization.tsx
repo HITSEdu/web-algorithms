@@ -33,29 +33,31 @@ const Clusterization: React.FC = () => {
             maxSize: 25,
             command: command,
         });
-    // console.log(grid);
 
-    const fullnessUp = () => { setFullness(prevFullness => Math.min(prevFullness + 5, 100)); }
-    const fullnessDown = () => { setFullness(prevFullness => Math.max(prevFullness - 5, 0)); }
+    const fullnessUp = () => { 
+        setFullness(prevFullness => Math.min(prevFullness + 5, 100));
+    }
+    const fullnessDown = () => { 
+        setFullness(prevFullness => Math.max(prevFullness - 5, 0)); 
+    }
 
     const generateGrid = async () => {
         try {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
-                console.error('Грид не сгенерировался');
+                console.error('[Clusterization|generate] response status:', response.status);
                 return;
             }
             const generated = await response.json();
-            // console.log(generated.grid);
             setGrid(generated.grid);
         } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
+            console.error('[Clusterization|generate] response error:', error);
         }
     };
 
     const clusterize = async () => {
-        try {
+        try {  
             const response = await fetch(`${API_URL}${PREFIX}/clusterize`, {
                 method: 'POST',
                 headers: {
@@ -63,29 +65,22 @@ const Clusterization: React.FC = () => {
                 },
                 body: JSON.stringify({ pixels: grid })
             });
-    
             if (!response.ok) {
-                console.error('Ошибка: сервер вернул статус', response.status);
+                console.error('[Clusterization|clusterize] response status:', response.status);
                 return;
             }
-    
-            const data = await response.json();
-            // const canvas = data.canvas;
-            // for (let x = 0; x < canvas.length; x++) {
-            //     for (let y = 0; y < canvas.length; y++) {
-            //         for (const c in COLORS) {
-            //             if (canvas[x][y] == c) {
-                            
-            //             }
-            //         }
-            //     }   
-            // }
-            setGrid(data.canvas);
-            console.log('Результат кластеризации:', data.canvas);
-            setNClusters(data.k);
 
+            const data = await response.json();
+            console.log(data);
+            if (data.status == 1) {
+                setNClusters(data.data.k);
+                setGrid(data.data.canvas);
+            }
+            else {
+                console.log(data.status);
+            }
         } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
+            console.error('[Clusterization|clusterize] response error:', error);
         }
     };
     
