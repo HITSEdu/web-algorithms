@@ -12,7 +12,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({onPageChange}) => {
-    const size = useResize(20, 65);
+    const size = useResize(10, 75, 35, 'min');
 
     return (
         <div className='home-container'>

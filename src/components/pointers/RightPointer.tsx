@@ -9,7 +9,7 @@ interface RightPointerProps {
 
 const RightPointer: React.FC<RightPointerProps> = ({page, onPageChange}) => {
     const newPage = usePointer({page, direction: 'right'})
-    const size = useResize(30, 40);
+    const size = useResize(20, 50, 10, 'min');
 
     return (
         <div style={{width: `${size * 1.77}px`, height: `${size * 3 * 1.77}px`}}
