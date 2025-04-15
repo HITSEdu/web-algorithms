@@ -5,9 +5,18 @@ import {useGrid} from "../../../hooks/useGrid";
 import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
+import RadioButton from "../../radio_button/RadioButton";
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/clusterization";
+
+type ClusterData = {
+    [key: string]: {
+        k: number;
+        canvas: number[][];
+        c: number;
+    };
+};
 
 const COLORS = new Map<number, string>([
     [10, '#3BACD9'],
@@ -22,10 +31,14 @@ const Clusterization: React.FC = () => {
     const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
     const [fullness, setFullness] = useState(20);
     const [nClusters, setNClusters] = useState(2);
+    const [best, setBest] = useState("2");
+    const [options, setOptions] = useState(["2", "3", "4", "5", "6"]);
+    const [clusterData, setClusterData] = useState<ClusterData | null>(null);
 
-    const command = (value: number) => {
-        return (value + 1) % 4
-    }
+    const command = (value: number) => (value + 1) % 4;
+
+    const fullnessUp = () => setFullness(prev => Math.min(prev + 5, 100));
+    const fullnessDown = () => setFullness(prev => Math.max(prev - 5, 0));
 
     const {grid, size, handleClick, sizeUp, sizeDown, setGrid} = useGrid({
         initSize: 15,
@@ -34,23 +47,31 @@ const Clusterization: React.FC = () => {
         command: command,
     });
 
-    const fullnessUp = () => {
-        setFullness(prevFullness => Math.min(prevFullness + 5, 100));
-    }
-    const fullnessDown = () => {
-        setFullness(prevFullness => Math.max(prevFullness - 5, 0));
-    }
+    const findBest = (data: ClusterData) => {
+        let bestKey: string | null = null;
+        let maxCValue = -Infinity;
+        for (let key of Object.keys(data)) {
+            const cValue = data[key].c;
+            if (cValue > maxCValue) {
+                maxCValue = cValue;
+                bestKey = key;
+            }
+        }
+        return String(bestKey);
+    };
 
     const generateGrid = async () => {
         try {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
-
             if (!response.ok) {
                 console.error('[Clusterization|generate] response status:', response.status);
                 return;
             }
             const generated = await response.json();
             setGrid(generated.grid);
+            setNClusters(2);
+            setClusterData(null);
+            setBest("2");
         } catch (error) {
             console.error('[Clusterization|generate] response error:', error);
         }
@@ -71,10 +92,16 @@ const Clusterization: React.FC = () => {
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             if (data.status === 1) {
-                setNClusters(data.data.k);
-                setGrid(data.data.canvas);
+                const clusterData: ClusterData = data.data;
+                const keys = Object.keys(clusterData);
+                const best = findBest(clusterData);
+                setOptions(keys);
+                setBest(best);
+                setNClusters(keys.length);
+                setClusterData(clusterData);
+                setGrid(clusterData[best].canvas);
             } else {
                 console.log(data.status);
             }
@@ -82,7 +109,6 @@ const Clusterization: React.FC = () => {
             console.error('[Clusterization|clusterize] response error:', error);
         }
     };
-
 
     const colorKeys = Array.from(COLORS.keys());
     const colorCount = colorKeys.length;
@@ -94,21 +120,35 @@ const Clusterization: React.FC = () => {
             const colorIndex = colorKeys[i % colorCount];
             return {
                 title: `${i + 1}`,
-                color: `${COLORS.get(colorIndex)}`
+                color: COLORS.get(colorIndex) || '#000000',
             };
         })
     ];
 
     return (
         <div className='grid-container'>
-            <Grid
-                grid={grid}
-                size={size}
-                pixelSize={pixelSize}
-                handleClick={handleClick}
-                flag={true}
-            />
-
+            <div className="grid-row">
+                <Grid
+                    grid={grid}
+                    size={size}
+                    pixelSize={pixelSize}
+                    handleClick={handleClick}
+                    flag={true}
+                />
+                <RadioButton
+                    options={options}
+                    best={best}
+                    onChange={(value) => {
+                        if (clusterData) {
+                            const key = String(value);
+                            if (clusterData[key]) {
+                                setGrid(clusterData[key].canvas);
+                            }
+                            setNClusters(clusterData[key].k);
+                        }
+                    }}
+                />
+            </div>
             <Info listOfClusters={infoData}/>
 
             <Controls
