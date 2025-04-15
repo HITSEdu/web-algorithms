@@ -51,7 +51,10 @@ const Controls: React.FC<ControlsProps> = ({
                     <IconPlus size={iconSize}/>
                 </button>
             </div>
-            <CommandButton commandName='Сгенерировать' Icon={IconGenerate} onCommand={onGenerate} iconSize={iconSize}/>
+            <div className='generate-button'>
+                <CommandButton commandName='Сгенерировать' Icon={IconGenerate} onCommand={onGenerate}
+                               iconSize={iconSize}/>
+            </div>
             <CommandButton commandName={commandName} Icon={IconPath} onCommand={onCommand} iconSize={iconSize}/>
         </div>);
 };

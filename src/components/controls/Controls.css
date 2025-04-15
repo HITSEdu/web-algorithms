@@ -70,6 +70,21 @@
     align-items: center;
 }
 
+.commands-container svg, .button-up svg, .button-down svg {
+    transition: transform 0.3s;
+}
+
+.commands-container svg:hover, .button-up svg:hover, .button-down svg:hover {
+    transform: scale(1.2);
+}
+
+.generate-button svg {
+    transition: transform 0.3s ease-in-out;
+}
+
+.generate-button svg:hover {
+    transform: scale(1.2) rotate(90deg);
+}
 
 @media (max-width: 500px) {
     .buttons-group {
