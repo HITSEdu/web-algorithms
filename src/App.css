@@ -10,11 +10,14 @@
 }
 
 .main-content {
+    margin-top: 0.2rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    min-height: 60vh;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 78vh;
 }
 
 @media (max-width: 510px) or (max-height: 615px) {
