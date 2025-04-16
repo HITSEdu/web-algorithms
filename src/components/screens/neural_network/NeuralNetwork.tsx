@@ -6,6 +6,7 @@ import {useState} from "react";
 import CommandButton from "../../controls/CommandButton";
 import IconRecognize from "../../icons/IconRecognize";
 import IconGenerate from "../../icons/IconGenerate";
+import { log } from 'console';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/neural_network"
@@ -83,6 +84,7 @@ const NeuralNet: React.FC = () => {
             }
 
             const data = await response.json();
+            console.log(data);
             setDigit(data?.digit);
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);

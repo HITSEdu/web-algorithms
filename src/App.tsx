@@ -10,6 +10,8 @@ import RightPointer from "./components/pointers/RightPointer";
 import AStar from "./components/screens/a_star/AStar";
 import Clusterization from './components/screens/clusterization/Clusterization';
 import Ant from "./components/screens/ant/Ant";
+import Genetic from './components/screens/genetic/Genetic';
+import Tree from './components/screens/tree/Tree';
 
 const App: React.FC = () => {
     const savedPage = localStorage.getItem('activePage') || 'home';
@@ -40,6 +42,8 @@ const App: React.FC = () => {
                     {page === 'cluster' && <Clusterization/>}
                     {page === 'ants' && <Ant/>}
                     {page === 'A*' && <AStar/>}
+                    {page === 'genetics' && <Genetic/>}
+                    {page === 'tree' && <Tree/>}
                     {page === 'neural' && <NeuralNet/>}
                     <RightPointer page={page} onPageChange={handlePageChange}/>
                 </div>
