@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './RadioButton.css';
 
 type Props = {
     options: string[];
     best: string;
     onChange: (value: string) => void;
+    orientation: "row" | "column";
 };
 
-const RadioButton: React.FC<Props> = ({ options, best, onChange }) => {
+const RadioButton: React.FC<Props> = ({options, best, onChange, orientation}) => {
     const [selectedValue, setSelectedValue] = useState<string>(best);
 
     useEffect(() => {
@@ -20,7 +21,12 @@ const RadioButton: React.FC<Props> = ({ options, best, onChange }) => {
     };
 
     return (
-        <div className="radio-input">
+        <div className="radio-input"
+             style={{
+                 flexDirection: orientation,
+                 width: orientation === 'column' ? '1rem' : `${options.length * 4.2}vh`,
+                 height: orientation === 'column' ? `${options.length * 4.2}vh` : '1rem',
+             }}>
             {options.map((value, index) => (
                 <label
                     key={value}
@@ -37,7 +43,7 @@ const RadioButton: React.FC<Props> = ({ options, best, onChange }) => {
                     <span>{value}</span>
                 </label>
             ))}
-            <span className="selection" />
+            <span className="selection"/>
         </div>
     );
 };

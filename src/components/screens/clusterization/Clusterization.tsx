@@ -147,6 +147,7 @@ const Clusterization: React.FC = () => {
                             setNClusters(clusterData[key].k);
                         }
                     }}
+                    orientation='column'
                 />
             </div>
             <Info listOfClusters={infoData}/>

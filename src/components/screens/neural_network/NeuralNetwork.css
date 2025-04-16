@@ -5,6 +5,14 @@
     justify-content: center;
 }
 
+.radio-container {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: -1vw;
+}
 
 .button-container {
     display: grid;
@@ -13,20 +21,6 @@
     justify-items: center;
     gap: 0.5rem;
     width: 25rem;
-}
-
-.button-clear,
-.button-recognize {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.2s ease;
-}
-
-.button-clear:hover,
-.button-recognize:hover {
-    background-color: #e0e0e0;
 }
 
 .digit-container {
