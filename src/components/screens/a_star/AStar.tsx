@@ -10,7 +10,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/a";
 
 const AStar: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(45, 25, 10, 'min'));
+    const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
     const [fullness, setFullness] = useState(35);
     const [animation, setAnimation] = useState<boolean>(true);
     const animationRef = useRef(animation);
