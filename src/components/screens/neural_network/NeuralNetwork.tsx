@@ -6,14 +6,17 @@ import {useState} from "react";
 import CommandButton from "../../controls/CommandButton";
 import IconRecognize from "../../icons/IconRecognize";
 import IconGenerate from "../../icons/IconGenerate";
-import { log } from 'console';
+import RadioButton from "../../radio_button/RadioButton";
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/neural_network"
 
 const NeuralNet: React.FC = () => {
     const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
-    const iconSize = useResize(28, 25, 15);
+    const iconSize = useResize(40, 30, 15);
+    const [confidence, setConfidence] = useState([]);
+    const [best, setBest] = useState(-1);
+    const [cur, setCur] = useState(-1);
 
     const command = (value: number) => {
         return 1
@@ -28,11 +31,48 @@ const NeuralNet: React.FC = () => {
         });
 
     const [isDrawing, setIsDrawing] = useState(false);
-    const [digit, setDigit] = useState(-1);
 
     const isCorrect = (row: number, col: number) => {
         return row >= 0 && row < 50 && col >= 0 && col < 50;
     }
+
+    const getCell = (e: React.TouchEvent) => {
+        const gridElement = document.querySelector('.grid');
+        if (!gridElement) return null;
+
+        const rect = gridElement.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+
+        const col = Math.floor((x) / (pixelSize * 21 / size));
+        const row = Math.floor((y) / (pixelSize * 21 / size));
+
+        if (isCorrect(row, col)) {
+            return {row, col};
+        }
+
+        return null;
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        e.preventDefault();
+        setIsDrawing(true);
+
+        const cell = getCell(e);
+        if (cell) handleMouseDown(cell.row, cell.col);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDrawing) return;
+
+        const cell = getCell(e);
+        if (cell) handleMouseEnter(cell.row, cell.col);
+    }
+
+    const handleTouchEnd = () => {
+        handleMouseUp()
+    };
 
     const handleMouseDown = (row: number, col: number) => {
         setIsDrawing(true);
@@ -84,11 +124,22 @@ const NeuralNet: React.FC = () => {
             }
 
             const data = await response.json();
-            console.log(data);
-            setDigit(data?.digit);
+            setConfidence(data?.predict);
+            setCur(data?.digit);
+            setBest(data?.digit);
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
         }
+    }
+
+    const handleChange = (value: string) => {
+        const digit = Number(value);
+        if (confidence.length === 0) {
+            setCur(-1);
+            return;
+        }
+
+        setCur(digit);
     }
 
 
@@ -103,21 +154,35 @@ const NeuralNet: React.FC = () => {
                 pixelSize={pixelSize}
                 handleClick={handleMouseDown}
                 handleMouseEnter={handleMouseEnter}
+                handleTouchStart={handleTouchStart}
+                handleTouchMove={handleTouchMove}
+                handleTouchEnd={handleTouchEnd}
                 style={{
                     margin: '0',
                     borderRadius: '24%',
                     border: '1px solid #2C2D30',
                 }}
             />
+            <div className='radio-container'>
+                <RadioButton
+                    options={['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']}
+                    best={best.toString()}
+                    onChange={handleChange}
+                    orientation='row'
+                />
+            </div>
             <div className='digit-container'>
                 <div className='div-digit'>
                 </div>
-                <p>{digit >= 0 ? digit : "Loading..."}</p>
+                <p>{cur >= 0 && confidence[cur] !== undefined ? `${confidence[cur]}%` : "Loading..."}</p>
                 <div className='div-digit'>
                 </div>
             </div>
             <div className='button-container'>
-                <CommandButton commandName='Очистить' Icon={IconGenerate} onCommand={clearCanvas} iconSize={iconSize}/>
+                <div className='generate-button'>
+                    <CommandButton commandName='Очистить' Icon={IconGenerate} onCommand={clearCanvas}
+                                   iconSize={iconSize}/>
+                </div>
                 <CommandButton commandName='Распознать' Icon={IconRecognize} onCommand={recognize} iconSize={iconSize}/>
             </div>
         </div>

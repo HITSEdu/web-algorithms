@@ -58,7 +58,7 @@
 }
 
 .commands-container button {
-    background-color: #212024;
+    background-color: inherit;
     padding: 0;
     color: #D1D1D1;
     font-size: 1.2em;
@@ -70,20 +70,24 @@
     align-items: center;
 }
 
-.commands-container svg, .button-up svg, .button-down svg {
+.commands-container svg, .button-up svg, .button-down svg{
     transition: transform 0.3s;
 }
 
-.commands-container svg:hover, .button-up svg:hover, .button-down svg:hover {
+.commands-container:hover svg, .button-up:hover svg, .button-down:hover svg {
     transform: scale(1.2);
 }
 
-.generate-button svg {
+.generate-button {
     transition: transform 0.3s ease-in-out;
 }
 
-.generate-button svg:hover {
-    transform: scale(1.2) rotate(90deg);
+.generate-button:hover svg {
+    transform: scale(1.2) rotate(90deg) !important;
+}
+
+.commands-container:hover button {
+    color: rgba(209, 209, 209, 0.5);
 }
 
 @media (max-width: 500px) {
