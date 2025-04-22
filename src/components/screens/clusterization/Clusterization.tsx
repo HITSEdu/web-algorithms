@@ -35,7 +35,7 @@ const Clusterization: React.FC = () => {
     const [options, setOptions] = useState(["2", "3", "4", "5", "6"]);
     const [clusterData, setClusterData] = useState<ClusterData | null>(null);
 
-    const command = (value: number) => (value + 1) % 4;
+    const command = (value: number) => (value + 1) % 2;
 
     const fullnessUp = () => setFullness(prev => Math.min(prev + 5, 100));
     const fullnessDown = () => setFullness(prev => Math.max(prev - 5, 0));
