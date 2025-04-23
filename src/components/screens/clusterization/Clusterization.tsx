@@ -6,6 +6,7 @@ import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
 import RadioButton from "../../radio_button/RadioButton";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/clusterization";
@@ -92,7 +93,7 @@ const Clusterization: React.FC = () => {
             }
 
             const data = await response.json();
-            // console.log(data);
+            console.log(data);
             if (data.status === 1) {
                 const clusterData: ClusterData = data.data;
                 const keys = Object.keys(clusterData);
@@ -103,7 +104,18 @@ const Clusterization: React.FC = () => {
                 setClusterData(clusterData);
                 setGrid(clusterData[best].canvas);
             } else {
-                console.log(data.status);
+                toast.warn('Нельзя выполнить кластеризацию!', {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    theme: "dark",
+                    transition: Slide,
+                    style: {
+                        width: '25vw',
+                      },
+                    });
             }
         } catch (error) {
             console.error('[Clusterization|clusterize] response error:', error);
@@ -163,6 +175,15 @@ const Clusterization: React.FC = () => {
                 fullness={fullness}
                 commandName='Выполнить'
             />
+            <ToastContainer
+                position="bottom-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                transition={Slide}
+                />
         </div>
     );
 };

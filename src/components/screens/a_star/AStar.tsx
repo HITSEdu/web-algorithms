@@ -5,6 +5,7 @@ import {useGrid} from "../../../hooks/useGrid";
 import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/a";
@@ -64,14 +65,14 @@ const AStar: React.FC = () => {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
-                console.error('Не удалось сгенерировать!');
+                console.error('[A|generate] response error: Failed to generate');
                 return;
             }
 
             const generated = await response.json();
             setGrid(generated.grid);
         } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
+            console.error('[A|generate] response error:', error);
         }
     };
 
@@ -90,11 +91,26 @@ const AStar: React.FC = () => {
             );
 
             if (!response.ok) {
-                console.error('Путь не найден!');
+                console.error('[A|findPath] error: Couldn\'t find the path');
                 return;
             }
 
             const data = await response.json();
+
+            if (!data.path || data.path.length === 0) {
+                toast.info('Нет пути ', {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    theme: "dark",
+                    transition: Slide,
+                    style: {
+                        width: '25vw',
+                    },
+                });
+            }
 
             if (data?.history) {
                 await animateHistory(data.history);
@@ -104,7 +120,18 @@ const AStar: React.FC = () => {
                 await animatePath(data.path);
             }
         } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
+            toast.error('Поле пустое', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+                theme: "dark",
+                transition: Slide,
+                style: {
+                    width: '25vw',
+                  },
+                });
         }
     };
 
@@ -172,6 +199,15 @@ const AStar: React.FC = () => {
                 fullness={fullness}
                 commandName='Найти путь'
             />
+            <ToastContainer
+                position="bottom-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                transition={Slide}
+                />
         </div>
     );
 };

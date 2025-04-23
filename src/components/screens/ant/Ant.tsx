@@ -5,8 +5,7 @@ import {useGrid} from "../../../hooks/useGrid";
 import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
-import IconPlus from "../../icons/IconPlus";
-import IconMinus from "../../icons/IconMinus";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/ant";
@@ -49,27 +48,20 @@ const Ant: React.FC = () => {
         setFullness(prev => Math.max(prev - 5, 0));
     }
 
-    const increaseNutritionalValue = () => {
-        setNutritionalValue(prev => Math.min(prev + 1, 10));
-    };
-    const decreaseNutritionalValue = () => {
-        setNutritionalValue(prev => Math.max(prev - 1, 1));
-    };
-
     const generateGrid = async () => {
         stopAnimation();
         try {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
 
             if (!response.ok) {
-                console.error('Не удалось сгенерировать карту');
+                console.error('[Ant|generate] response error: Failed to generate');
                 return;
             }
 
             const data = await response.json();
             setGrid(data.grid);
         } catch (error) {
-            console.error('Ошибка при генерации карты:', error);
+            console.error('[Ant|generate] response error:', error);
         }
     }
 
@@ -85,11 +77,26 @@ const Ant: React.FC = () => {
             });
 
             if (!response.ok) {
-                console.error('Алгоритм не смог найти путь!');
+                console.error('[Ant|findPath] error: Couldn\'t find the path');
                 return;
             }
 
             const data = await response.json();
+
+            if (!data.path || data.path.length === 0) {
+                toast.info('Нет пути ', {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: false,
+                    theme: "dark",
+                    transition: Slide,
+                    style: {
+                        width: '25vw',
+                    },
+                });
+            }
 
             if (data?.path) {
                 await animatePath(data.path);
@@ -100,7 +107,7 @@ const Ant: React.FC = () => {
             }
 
         } catch (error) {
-            console.error('Ошибка при запуске алгоритма:', error);
+            console.error('[Ant|findPath] response error:', error);
         }
     }
 
@@ -168,6 +175,15 @@ const Ant: React.FC = () => {
                 fullness={fullness}
                 commandName='Запуск'
             />
+            <ToastContainer
+                position="bottom-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                transition={Slide}
+                />
         </div>
     );
 };

@@ -13,6 +13,7 @@ const Tree: React.FC = () => {
                 color: "white",
                 fontSize: "3rem",
                 margin: "12vh",
+                userSelect: "none",
             }}
             >Здесь пока ничего нет...</span>
         </div>

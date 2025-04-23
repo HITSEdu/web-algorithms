@@ -41,7 +41,7 @@
     justify-content: center;
     height: 100%;
     font-size: 1.2rem;
-
+    user-select: none;
     background-color: #D1D1D1;
 }
 
@@ -68,6 +68,7 @@
     width: 10rem;
     display: flex;
     align-items: center;
+    user-select: none;
 }
 
 .commands-container svg, .button-up svg, .button-down svg{

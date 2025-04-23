@@ -119,7 +119,7 @@ const NeuralNet: React.FC = () => {
             );
 
             if (!response.ok) {
-                console.error('Не удалось загрузить картинку');
+                console.error('[Neural Network|recognize] response error: Failed to recognize');
                 return;
             }
 
@@ -128,7 +128,7 @@ const NeuralNet: React.FC = () => {
             setCur(data?.digit);
             setBest(data?.digit);
         } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
+            console.error('[Neural Network|recognize] response error: ', error);
         }
     }
 
