@@ -120,18 +120,7 @@ const AStar: React.FC = () => {
                 await animatePath(data.path);
             }
         } catch (error) {
-            toast.error('Поле пустое', {
-                position: "bottom-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                theme: "dark",
-                transition: Slide,
-                style: {
-                    width: '25vw',
-                  },
-                });
+            console.error('[A|findPath] error: ', error);
         }
     };
 
