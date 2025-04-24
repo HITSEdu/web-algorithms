@@ -10,3 +10,9 @@
     flex-direction: row;
     align-items: center;
 }
+
+.buttons-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1vh 1vw;
+}
