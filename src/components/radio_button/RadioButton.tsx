@@ -24,8 +24,6 @@ const RadioButton: React.FC<Props> = ({options, best, onChange, orientation}) =>
         <div className="radio-input"
              style={{
                  flexDirection: orientation,
-                 width: orientation === 'column' ? '1rem' : `${options.length * 4.2}vh`,
-                 height: orientation === 'column' ? `${options.length * 4.2}vh` : '1rem',
              }}>
             {options.map((value, index) => (
                 <label
