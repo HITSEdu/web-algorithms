@@ -17,11 +17,5 @@
     justify-content: center;
     align-items: center;
     overflow-y: auto;
-    max-height: 78vh;
-}
-
-@media (max-width: 510px) or (max-height: 615px) {
-    .main-content {
-        margin-top: 1rem;
-    }
+    max-height: 88vh;
 }
