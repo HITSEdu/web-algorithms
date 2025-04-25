@@ -1,171 +1,129 @@
 import {useState, useRef} from "react";
 import './Genetic.css';
 import {useResize} from "../../../hooks/useResize";
-import {useGrid} from "../../../hooks/useGrid";
-import Grid from "../../grid/Grid";
-import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
+import GraphCanvas, { GraphCanvasHandle } from "../../graph_canvas/GraphCanvas";
+import type { Point } from "../../graph_canvas/GraphCanvas";
+import IconPath from "../../icons/IconPath";
+import CommandButton from "../../controls/CommandButton";
+import IconGenerate from "../../icons/IconGenerate";
+import IconMinus from "../../icons/IconMinus";
+import IconPlus from "../../icons/IconPlus";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/genetic";
 
 const Genetic: React.FC = () => {
-    const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
-    const [fullness, setFullness] = useState(20);
-    const [nutritionalValue, setNutritionalValue] = useState(5);
+    const canvasRef = useRef<GraphCanvasHandle>(null);
     const [animation, setAnimation] = useState<boolean>(true);
     const animationRef = useRef(animation);
 
-    const command = (value: number) => {
-        stopAnimation();
-        return (value + 1) % 4;
-    }
+    const [localSize, setLocalSize] = useState(5);
 
     const stopAnimation = () => {
         setAnimation(false);
         animationRef.current = false;
     };
 
-    const startAnimation = () => {
-        setAnimation(true);
-        animationRef.current = true;
+    const numberPlus = () => {
+        setLocalSize(prev => Math.min(prev + 1, 30));
     };
 
-    const {grid, size, handleClick, sizeUp, sizeDown, setGrid} = useGrid({
-        initSize: 15,
-        minSize: 5,
-        maxSize: 25,
-        command: command,
-    });
-
-    const fullnessUp = () => {
-        stopAnimation();
-        setFullness(prev => Math.min(prev + 5, 100));
-    }
-    const fullnessDown = () => {
-        stopAnimation();
-        setFullness(prev => Math.max(prev - 5, 0));
-    }
-
-    const increaseNutritionalValue = () => {
-        setNutritionalValue(prev => Math.min(prev + 1, 10));
-    };
-    const decreaseNutritionalValue = () => {
-        setNutritionalValue(prev => Math.max(prev - 1, 1));
+    const numberMinus = () => {
+        setLocalSize(prev => Math.max(prev - 1, 2));
     };
 
     const generateGrid = async () => {
-        stopAnimation();
         try {
-            const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
-
+            const response = await fetch(`${API_URL}${PREFIX}/generate?count=${localSize}`, {
+                method: "GET",
+            });
             if (!response.ok) {
-                console.error('Не удалось сгенерировать карту');
-                return;
+                throw new Error(`HTTP error: ${response.status}`);
             }
-
-            const data = await response.json();
-            setGrid(data.grid);
+            const result = await response.json();
+            const generatedPoints: Point[] = result.points;
+            canvasRef.current?.clear();
+            canvasRef.current?.addPoints(generatedPoints);
         } catch (error) {
-            console.error('Ошибка при генерации карты:', error);
+            console.error('[Genetic|generateGrid] response error:', error);
         }
-    }
+    };
 
     const findPath = async () => {
-        stopAnimation();
-        startAnimation();
+        const points = canvasRef.current?.getPoints();
+        if (!points || points.length < 2) {
+            toast.warn('Недостаточно точек', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                theme: "dark",
+                transition: Slide,
+                style: {
+                    fontSize: 'max(1vw, 0.7rem)',
+                    width: '30vw',
+                  },
+                });
+            return;
+        }
 
         try {
-            const response = await fetch(`${API_URL}${PREFIX}/find-path`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({pixels: grid})
+            const response = await fetch(`${API_URL}${PREFIX}/solve`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ points }),
             });
 
-            if (!response.ok) {
-                console.error('Алгоритм не смог найти путь!');
-                return;
+            const result = await response.json();
+            const bestPath: number[] = result.path;
+            const history: number[][] = result.history;
+
+            if (animationRef.current) {
+                if (history && history.length > 0) {
+                    await canvasRef.current?.animateHistory(history);
+                }
+                await canvasRef.current?.animatePath(bestPath);
+            } else {
+                canvasRef.current?.drawPath(bestPath);
             }
-
-            const data = await response.json();
-
-            if (data?.path) {
-                await animatePath(data.path);
-            }
-
-            if (data?.history) {
-                await animateHistory(data.history);
-            }
-
         } catch (error) {
-            console.error('Ошибка при запуске алгоритма:', error);
+            console.error('[Genetic|findPath] response error:', error);
         }
-    }
-
-    const animatePath = async (path: number[][]) => {
-        for (let i = 0; i < path.length; i++) {
-            if (!animationRef.current) return;
-            const [row, col] = path[i];
-
-            setGrid(prev => {
-                const newGrid = prev.map(r => [...r]);
-                if (newGrid[row][col] !== 2 && newGrid[row][col] !== 3) {
-                    newGrid[row][col] = 4;
-                }
-                return newGrid;
-            });
-
-            await new Promise(resolve => setTimeout(resolve, 100));
-        }
-    }
-
-    const animateHistory = async (history: number[][]) => {
-        for (let i = 0; i < history.length; i++) {
-            if (!animationRef.current) return;
-            const [row, col] = history[i];
-
-            setGrid(prev => {
-                const newGrid = prev.map(r => [...r]);
-                if (newGrid[row][col] !== 2 && newGrid[row][col] !== 3) {
-                    newGrid[row][col] = 5;
-                }
-                return newGrid;
-            });
-
-            await new Promise(resolve => setTimeout(resolve, 30));
-        }
-    }
+    };
 
     const infoData = [
-        {title: 'Колония', color: '#D98425'},
-        {title: 'Источники', color: '#D92525'},
-        {title: 'Путь', color: 'rgba(217, 132, 37, 0.6)'},
-        {title: 'Стенки', color: '#FFFFFF'},
+        {title: 'Города', color: 'rgb(130,217,48)'},
+        {title: 'Путь', color: 'rgb(130,217,48, 0.5)'},
     ];
+
+    const iconSize = useResize(40, 30, 15, 'min');
 
     return (
         <div className='grid-container'>
-            <Grid
-                grid={grid}
-                size={size}
-                pixelSize={pixelSize}
-                handleClick={handleClick}
-                flag={true}
-            />
-
+            <GraphCanvas ref={canvasRef}/>
             <Info listOfClusters={infoData}/>
-
-            <Controls
-                size={size}
-                sizeUp={sizeUp}
-                sizeDown={sizeDown}
-                onGenerate={generateGrid}
-                onCommand={findPath}
-                fullnessUp={fullnessUp}
-                fullnessDown={fullnessDown}
-                fullness={fullness}
-                commandName='Запуск'
-            />
+            <div className='buttons-group'>
+                <div className='resize-container'>
+                    <button className='button-down' onClick={numberMinus}>
+                        <IconMinus size={iconSize}/>
+                    </button>
+                    <p>{localSize}</p>
+                    <button className='button-up' onClick={numberPlus}>
+                        <IconPlus size={iconSize}/>
+                    </button>
+                </div>
+                <CommandButton commandName={"Очистка"} Icon={IconGenerate} onCommand={() => canvasRef.current?.clear()} iconSize={iconSize}/>
+                <div className='generate-button'>
+                    <CommandButton commandName='Сгенерировать' Icon={IconGenerate} onCommand={generateGrid}
+                                   iconSize={iconSize}/>
+                </div>
+                <CommandButton commandName={"Запуск"} Icon={IconPath} onCommand={findPath} iconSize={iconSize}/>
+            </div>
+            <ToastContainer />
         </div>
     );
 };

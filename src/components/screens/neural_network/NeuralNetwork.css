@@ -52,7 +52,7 @@
     justify-content: center;
     height: 100%;
     font-size: 1.2rem;
-
+    user-select: none;
     background-color: #D1D1D1;
 }
 

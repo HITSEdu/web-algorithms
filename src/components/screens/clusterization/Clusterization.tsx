@@ -6,16 +6,19 @@ import Grid from "../../grid/Grid";
 import Controls from "../../controls/Controls";
 import Info from "../../info/Info";
 import RadioButton from "../../radio_button/RadioButton";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/clusterization";
 
+type ClusterItem = {
+    k: number;
+    canvas: number[][];
+    c: number;
+};
+
 type ClusterData = {
-    [key: string]: {
-        k: number;
-        canvas: number[][];
-        c: number;
-    };
+    [type: string]: ClusterItem[];
 };
 
 const COLORS = new Map<number, string>([
@@ -29,13 +32,18 @@ const COLORS = new Map<number, string>([
 
 const Clusterization: React.FC = () => {
     const pixelSize = Math.ceil(useResize(45, 25, 12, 'min'));
-    const [fullness, setFullness] = useState(20);
+    const [fullness, setFullness] = useState(10);
     const [nClusters, setNClusters] = useState(2);
+
     const [best, setBest] = useState("2");
     const [options, setOptions] = useState(["2", "3", "4", "5", "6"]);
     const [clusterData, setClusterData] = useState<ClusterData | null>(null);
+    const [hideRadioButton, setHideRadioButton] = useState(false);
 
-    const command = (value: number) => (value + 1) % 2;
+    const [algorithmTypes, setAlgorithmTypes] = useState(["k-means", "DBSCAN"]);
+    const [currentAlgorithm, setCurrentAlgorithm] = useState(algorithmTypes[0]);
+
+    const onGridTouch = (value: number) => (value + 1) % 2;
 
     const fullnessUp = () => setFullness(prev => Math.min(prev + 5, 100));
     const fullnessDown = () => setFullness(prev => Math.max(prev - 5, 0));
@@ -44,22 +52,23 @@ const Clusterization: React.FC = () => {
         initSize: 15,
         minSize: 5,
         maxSize: 25,
-        command: command,
+        command: onGridTouch,
     });
 
     const findBest = (data: ClusterData) => {
-        let bestKey: string | null = null;
+        const kMeans = data["k-means"];
+        let bestIndex = 0;
         let maxCValue = -Infinity;
-        for (let key of Object.keys(data)) {
-            const cValue = data[key].c;
+        for (let i = 0; i < kMeans.length; i++) {
+            const cValue = kMeans[i].c;
             if (cValue > maxCValue) {
                 maxCValue = cValue;
-                bestKey = key;
+                bestIndex = i;
             }
         }
-        return String(bestKey);
-    };
-
+        return bestIndex;
+    };    
+    
     const generateGrid = async () => {
         try {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
@@ -72,6 +81,8 @@ const Clusterization: React.FC = () => {
             setNClusters(2);
             setClusterData(null);
             setBest("2");
+            setCurrentAlgorithm(algorithmTypes[0]);
+            setHideRadioButton(false);
         } catch (error) {
             console.error('[Clusterization|generate] response error:', error);
         }
@@ -95,15 +106,33 @@ const Clusterization: React.FC = () => {
             // console.log(data);
             if (data.status === 1) {
                 const clusterData: ClusterData = data.data;
-                const keys = Object.keys(clusterData);
-                const best = findBest(clusterData);
-                setOptions(keys);
-                setBest(best);
-                setNClusters(keys.length);
                 setClusterData(clusterData);
-                setGrid(clusterData[best].canvas);
+                setAlgorithmTypes(Object.keys(clusterData));
+                setCurrentAlgorithm(algorithmTypes[0]);
+
+                const keys = Object.values(clusterData['k-means']);
+                const options = Array.from({ length: keys.length }, (_, i) => String(i + 2));
+                setOptions(options);
+
+                const best = findBest(clusterData);
+                setBest(String(clusterData["k-means"][best].k));
+                setNClusters(clusterData["k-means"][best].k);
+                
+                setGrid(clusterData['k-means'][best].canvas);
+                setHideRadioButton(false);
             } else {
-                console.log(data.status);
+                toast.warn('Нельзя выполнить кластеризацию!', {
+                    position: "bottom-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    theme: "dark",
+                    transition: Slide,
+                    style: {
+                        fontSize: 'max(1vw, 0.7rem)',
+                        width: '30vw',
+                      },
+                    });
             }
         } catch (error) {
             console.error('[Clusterization|clusterize] response error:', error);
@@ -113,9 +142,11 @@ const Clusterization: React.FC = () => {
     const colorKeys = Array.from(COLORS.keys());
     const colorCount = colorKeys.length;
 
+    let titleRed = (currentAlgorithm === algorithmTypes[1]) ? 'Шум' : 'Центр';
+
     const infoData = [
         {title: 'Точка', color: '#FFFFFF'},
-        {title: 'Центр', color: '#D92525'},
+        {title: titleRed, color: '#D92525'},
         ...Array.from({length: nClusters}, (_, i) => {
             const colorIndex = colorKeys[i % colorCount];
             return {
@@ -135,21 +166,44 @@ const Clusterization: React.FC = () => {
                     handleClick={handleClick}
                     flag={true}
                 />
-                <RadioButton
-                    options={options}
-                    best={best}
-                    onChange={(value) => {
-                        if (clusterData) {
-                            const key = String(value);
-                            if (clusterData[key]) {
-                                setGrid(clusterData[key].canvas);
+                {!hideRadioButton && (
+                    <RadioButton
+                        options={options}
+                        best={best}
+                        onChange={(value) => {
+                            if (clusterData) {
+                                const item = clusterData["k-means"][Number(value) - 2];
+                                if (item) {
+                                    setGrid(item.canvas);
+                                    setNClusters(item.k);
+                                }
                             }
-                            setNClusters(clusterData[key].k);
+                        }}
+                        orientation="column"
+                    />
+                )}
+            </div>
+            <RadioButton
+                    options={algorithmTypes}
+                    best={currentAlgorithm}
+                    onChange={(value) => {
+                        setCurrentAlgorithm(value);
+                        if (clusterData) {
+                            const item = clusterData[value];
+                            if (value === "k-means") {
+                                setHideRadioButton(false);
+                                setNClusters(item[parseInt(best) - 2].k);
+                                setGrid(item[parseInt(best) - 2].canvas);
+                            }
+                            else {
+                                setHideRadioButton(true);
+                                setNClusters(item[0].k);
+                                setGrid(item[0].canvas);
+                            }
                         }
                     }}
-                    orientation='column'
+                    orientation='row'
                 />
-            </div>
             <Info listOfClusters={infoData}/>
 
             <Controls
@@ -163,6 +217,7 @@ const Clusterization: React.FC = () => {
                 fullness={fullness}
                 commandName='Выполнить'
             />
+            <ToastContainer />
         </div>
     );
 };
