@@ -8,7 +8,7 @@
 - [x] Алгоритм кластеризации  
 - [x] Генетический алгоритм  
 - [x] Муравьиный алгоритм  
-- [ ] Дерево решений  
+- [x] Дерево решений  
 - [x] Нейронная сеть  
 
 ## [Макет в Figma](https://www.figma.com/design/xTi926ZMDnjgsSsLOreMeX/HITSEdu?node-id=1-3&p=f&t=ye79poNDUIUtgJai-0)  
