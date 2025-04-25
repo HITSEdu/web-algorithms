@@ -2,13 +2,14 @@ import {useState, useRef} from "react";
 import './Genetic.css';
 import {useResize} from "../../../hooks/useResize";
 import Info from "../../info/Info";
-import GraphCanvas, { GraphCanvasHandle } from "../../graphCanvas/GraphCanvas";
-import type { Point } from "../../graphCanvas/GraphCanvas";
+import GraphCanvas, { GraphCanvasHandle } from "../../graph_canvas/GraphCanvas";
+import type { Point } from "../../graph_canvas/GraphCanvas";
 import IconPath from "../../icons/IconPath";
 import CommandButton from "../../controls/CommandButton";
 import IconGenerate from "../../icons/IconGenerate";
 import IconMinus from "../../icons/IconMinus";
 import IconPlus from "../../icons/IconPlus";
+import { toast, ToastContainer, Slide } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const PREFIX = "/genetic";
@@ -38,25 +39,35 @@ const Genetic: React.FC = () => {
             const response = await fetch(`${API_URL}${PREFIX}/generate?count=${localSize}`, {
                 method: "GET",
             });
-
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error: ${response.status}`);
             }
-
             const result = await response.json();
             const generatedPoints: Point[] = result.points;
-
             canvasRef.current?.clear();
             canvasRef.current?.addPoints(generatedPoints);
-
         } catch (error) {
-            console.error("Ошибка при генерации точек:", error);
+            console.error('[Genetic|generateGrid] response error:', error);
         }
     };
 
     const findPath = async () => {
         const points = canvasRef.current?.getPoints();
-        if (!points || points.length < 2) return;
+        if (!points || points.length < 2) {
+            toast.warn('Недостаточно точек', {
+                position: "bottom-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                theme: "dark",
+                transition: Slide,
+                style: {
+                    fontSize: 'max(1vw, 0.7rem)',
+                    width: '30vw',
+                  },
+                });
+            return;
+        }
 
         try {
             const response = await fetch(`${API_URL}${PREFIX}/solve`, {
@@ -80,25 +91,21 @@ const Genetic: React.FC = () => {
                 canvasRef.current?.drawPath(bestPath);
             }
         } catch (error) {
-            console.error("Ошибка при поиске пути:", error);
+            console.error('[Genetic|findPath] response error:', error);
         }
     };
 
     const infoData = [
         {title: 'Города', color: 'rgb(130,217,48)'},
-        {title: 'Путь', color: 'rgba(217, 132, 37, 0.6)'},
-        {title: 'История', color: 'rgba(0, 100, 255, 0.5)'},
+        {title: 'Путь', color: 'rgb(130,217,48, 0.5)'},
     ];
 
     const iconSize = useResize(40, 30, 15, 'min');
 
     return (
         <div className='grid-container'>
-
             <GraphCanvas ref={canvasRef}/>
-
             <Info listOfClusters={infoData}/>
-
             <div className='buttons-group'>
                 <div className='resize-container'>
                     <button className='button-down' onClick={numberMinus}>
@@ -109,17 +116,14 @@ const Genetic: React.FC = () => {
                         <IconPlus size={iconSize}/>
                     </button>
                 </div>
-
                 <CommandButton commandName={"Очистка"} Icon={IconGenerate} onCommand={() => canvasRef.current?.clear()} iconSize={iconSize}/>
-
                 <div className='generate-button'>
                     <CommandButton commandName='Сгенерировать' Icon={IconGenerate} onCommand={generateGrid}
                                    iconSize={iconSize}/>
                 </div>
-
                 <CommandButton commandName={"Запуск"} Icon={IconPath} onCommand={findPath} iconSize={iconSize}/>
             </div>
-
+            <ToastContainer />
         </div>
     );
 };

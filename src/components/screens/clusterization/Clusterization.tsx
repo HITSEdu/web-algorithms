@@ -126,11 +126,11 @@ const Clusterization: React.FC = () => {
                     autoClose: 2000,
                     hideProgressBar: true,
                     closeOnClick: false,
-                    pauseOnHover: false,
                     theme: "dark",
                     transition: Slide,
                     style: {
-                        width: '25vw',
+                        fontSize: 'max(1vw, 0.7rem)',
+                        width: '30vw',
                       },
                     });
             }
@@ -188,19 +188,18 @@ const Clusterization: React.FC = () => {
                     best={currentAlgorithm}
                     onChange={(value) => {
                         setCurrentAlgorithm(value);
-                        if (value === "k-means") {
-                            setHideRadioButton(false);
-                            setBest(best);
-                        }
-                        else {
-                            setHideRadioButton(true);
-                        }
                         if (clusterData) {
-                            const item = clusterData[value][0];
-                                if (item) {
-                                    setGrid(item.canvas);
-                                    setNClusters(item.k);
-                                }
+                            const item = clusterData[value];
+                            if (value === "k-means") {
+                                setHideRadioButton(false);
+                                setNClusters(item[parseInt(best) - 2].k);
+                                setGrid(item[parseInt(best) - 2].canvas);
+                            }
+                            else {
+                                setHideRadioButton(true);
+                                setNClusters(item[0].k);
+                                setGrid(item[0].canvas);
+                            }
                         }
                     }}
                     orientation='row'
@@ -218,15 +217,7 @@ const Clusterization: React.FC = () => {
                 fullness={fullness}
                 commandName='Выполнить'
             />
-            <ToastContainer
-                position="bottom-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                transition={Slide}
-                />
+            <ToastContainer />
         </div>
     );
 };

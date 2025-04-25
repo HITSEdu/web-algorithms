@@ -63,12 +63,10 @@ const AStar: React.FC = () => {
         stopAnimation();
         try {
             const response = await fetch(`${API_URL}${PREFIX}/generate?size=${size}&fullness=${fullness}`);
-
             if (!response.ok) {
                 console.error('[A|generate] response error: Failed to generate');
                 return;
             }
-
             const generated = await response.json();
             setGrid(generated.grid);
         } catch (error) {
@@ -79,7 +77,6 @@ const AStar: React.FC = () => {
     const findPath = async () => {
         stopAnimation();
         startAnimation();
-
         try {
             const response = await fetch(`${API_URL}${PREFIX}/find-path`, {
                     method: 'POST',
@@ -89,25 +86,21 @@ const AStar: React.FC = () => {
                     body: JSON.stringify({pixels: grid})
                 }
             );
-
             if (!response.ok) {
                 console.error('[A|findPath] error: Couldn\'t find the path');
                 return;
             }
-
             const data = await response.json();
-
             if (!data.path || data.path.length === 0) {
                 toast.info('Нет пути ', {
                     position: "bottom-center",
                     autoClose: 2000,
                     hideProgressBar: true,
-                    closeOnClick: false,
-                    pauseOnHover: false,
                     theme: "dark",
                     transition: Slide,
                     style: {
-                        width: '25vw',
+                        fontSize: 'max(1vw, 0.7rem)',
+                        width: '30vw',
                     },
                 });
             }
@@ -115,7 +108,6 @@ const AStar: React.FC = () => {
             if (data?.history) {
                 await animateHistory(data.history);
             }
-
             if (data?.path) {
                 await animatePath(data.path);
             }
@@ -128,7 +120,6 @@ const AStar: React.FC = () => {
         for (let i = 0; i < history.length; i++) {
             if (!animationRef.current) return;
             const [row, col] = history[i];
-
             setGrid(prev => {
                 const newGrid = prev.map(row => [...row]);
                 if (newGrid[row][col] !== 2 && newGrid[row][col] !== 3) {
@@ -136,7 +127,6 @@ const AStar: React.FC = () => {
                 }
                 return newGrid;
             });
-
             await new Promise(resolve => setTimeout(resolve, 40));
         }
     }
@@ -145,7 +135,6 @@ const AStar: React.FC = () => {
         for (let i = 0; i < path.length; i++) {
             if (!animationRef.current) return;
             const [row, col] = path[i];
-
             setGrid(prev => {
                 const newGrid = prev.map(row => [...row]);
                 if (newGrid[row][col] !== 2 && newGrid[row][col] !== 3) {
@@ -153,15 +142,14 @@ const AStar: React.FC = () => {
                 }
                 return newGrid;
             });
-
-            await new Promise(resolve => setTimeout(resolve, 250));
+            await new Promise(resolve => setTimeout(resolve, 75));
         }
     }
 
     const infoData = [
         {title: 'Начало', color: '#D92525'},
         {title: 'Конец', color: '#D98425'},
-        {title: 'Путь', color: 'rgba(217, 132, 37, 0.3)'},
+        {title: 'Путь', color: 'rgba(217, 132, 37, 0.6)'},
         {title: 'Стенки', color: '#FFFFFF'},
     ];
 
@@ -174,9 +162,7 @@ const AStar: React.FC = () => {
                 handleClick={handleClick}
                 flag={true}
             />
-
             <Info listOfClusters={infoData}/>
-
             <Controls
                 size={size}
                 sizeUp={handleSizeUp}
@@ -188,15 +174,7 @@ const AStar: React.FC = () => {
                 fullness={fullness}
                 commandName='Найти путь'
             />
-            <ToastContainer
-                position="bottom-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                transition={Slide}
-                />
+            <ToastContainer />
         </div>
     );
 };

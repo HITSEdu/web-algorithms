@@ -4,7 +4,12 @@
     flex-shrink: 0;
 }
 
-.cell-0, .cell-1, .cell-2, .cell-3, .cell-4, .cell-5 {
+.cell-0, .cell-1, .cell-2, .cell-3, .cell-4, .cell-5, .cell-8 {
+    margin: 0.1rem;
+    border-radius: 24%;
+}
+
+.cell-0-ant, .cell-1-ant, .cell-3-ant, .cell-8-ant {
     margin: 0.1rem;
     border-radius: 24%;
 }
@@ -26,12 +31,36 @@
 }
 
 .cell-4 {
-    background-color: #D98425;
-    opacity: .30;
+    border: 0.12rem solid rgba(217, 132, 37, 0.4);
+    background-color: rgba(217, 132, 37, 0.4);
 }
 
 .cell-5 {
-    background-color: dodgerblue;
+    background-color: #FFFFFF;
+    opacity: .10;
+}
+
+.cell-0-ant {
+    background-color: #212024;
+}
+
+.cell-1-ant {
+    background-color: #FFFFFF;
+}
+
+.cell-2-ant {
+    border: 0.12rem solid #c5b6ff;
+    border-radius: 24%;
+    background-color: #9379FF;
+}
+
+.cell-3-ant {
+    background-color: #D92525;
+}
+
+.cell-8-ant {
+    background-color: #9379FF;
+    opacity: .30;
 }
 
 .cell-10, .cell-11, .cell-12, .cell-13, .cell-14, .cell-15 {

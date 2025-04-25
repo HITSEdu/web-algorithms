@@ -11,12 +11,12 @@ interface GridProps {
     handleTouchStart?: (e: React.TouchEvent) => void;
     handleTouchMove?: (e: React.TouchEvent) => void;
     handleTouchEnd?: (e: React.TouchEvent) => void;
+    algorithm?: string;
 }
 
-const Grid: React.FC<GridProps> = ({
-                                       grid, size, pixelSize, handleClick, handleMouseEnter,
-                                       style, flag, handleTouchStart, handleTouchMove, handleTouchEnd
-                                   }) => {
+const Grid: React.FC<GridProps> = ({grid, size, pixelSize, handleClick, handleMouseEnter, 
+    style, flag, handleTouchStart, handleTouchMove, handleTouchEnd, algorithm
+}) => {
 
     pixelSize = pixelSize * 21 / size;
 
@@ -36,7 +36,7 @@ const Grid: React.FC<GridProps> = ({
                     <div
                         style={{...style}}
                         key={`${rowIndex}-${cellIndex}`}
-                        className={`cell-${cell}`}
+                        className={`cell-${cell}${algorithm ? `-${algorithm}` : ''}`}
                         onMouseDown={() => handleClick(rowIndex, cellIndex, flag)}
                         onMouseEnter={handleMouseEnter ? () => handleMouseEnter(rowIndex, cellIndex) : undefined}
                     />

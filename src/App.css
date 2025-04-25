@@ -10,7 +10,7 @@
 }
 
 .main-content {
-    margin-top: 0.2rem;
+    margin-top: 1vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

@@ -16,42 +16,50 @@ export interface GraphCanvasHandle {
     animateHistory: (history: number[][]) => Promise<void>;
 }
 
-
 const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [points, setPoints] = useState<Point[]>([]);
     const pointsRef = useRef<Point[]>([]);
+    const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+    const RADIUS = 10;
 
     useEffect(() => {
         pointsRef.current = points;
         drawPoints();
     }, [points]);
 
-    const RADIUS = 10;
+    useEffect(() => {
+        const updateSize = () => {
+            const width = window.innerWidth * 0.5;
+            const height = window.innerHeight * 0.5;
+            setCanvasSize({ width, height });
+        };
+    
+        updateSize();
+        window.addEventListener('resize', updateSize);
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+
+    useEffect(() => {
+        drawPoints();
+    }, [points]);
 
     const drawPoints = () => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (const p of points) {
             ctx.beginPath();
             ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
-            ctx.fillStyle = '#82D930FF';
+            ctx.fillStyle = '#82D930';
             ctx.fill();
             ctx.strokeStyle = '#333';
             ctx.stroke();
-
-            ctx.fillStyle = 'white';
-            ctx.font = '12px sans-serif';
-            // ctx.fillText(`(${p.x.toFixed(0)}, ${p.y.toFixed(0)})`, p.x + 6, p.y - 6);
         }
     };
 
-    useEffect(() => {
-        drawPoints();
-    }, [points]);
+    
 
     const isInside = (x: number, y: number, point: Point) =>
         Math.hypot(point.x - x, point.y - y) < RADIUS;
@@ -62,11 +70,11 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         const existing = points.find(p => isInside(x, y, p));
         if (existing) {
             setPoints(prev => prev.filter(p => p.id !== existing.id));
-        } else {
+        }
+        else {
             const newPoint: Point = {
                 id: Date.now(),
                 x,
@@ -84,9 +92,8 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
         const midX = (p1.x + p2.x) / 2;
         const midY = (p1.y + p2.y) / 2;
         const distance = calculateDistance(p1, p2);
-
         ctx.fillStyle = 'white';
-        ctx.font = '10px sans-serif';
+        ctx.font = '12px Tektur';
         ctx.textAlign = 'center';
         ctx.fillText(distance.toFixed(1), midX, midY - 10);
     };
@@ -105,7 +112,6 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
             const canvas = canvasRef.current;
             const ctx = canvas?.getContext('2d');
             if (!canvas || !ctx) return;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawPoints();
         },
@@ -114,32 +120,24 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
             const canvas = canvasRef.current;
             const ctx = canvas?.getContext('2d');
             if (!canvas || !ctx) return;
-
             const currentPoints = pointsRef.current;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             const first = currentPoints.find(p => p.id === path[0]);
             if (!first) return;
-
             ctx.beginPath();
             ctx.moveTo(first.x, first.y);
             for (let i = 1; i < path.length; i++) {
                 const p = currentPoints.find(p => p.id === path[i]);
                 if (p) ctx.lineTo(p.x, p.y);
             }
-
-            ctx.strokeStyle = 'rgba(255, 165, 0, 0.8)';
+            ctx.strokeStyle = 'rgba(130,217,48, 0.3)';
             ctx.lineWidth = 2;
             ctx.stroke();
-
             for (const p of currentPoints) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
                 ctx.fillStyle = '#FFA500';
                 ctx.fill();
-                ctx.strokeStyle = '#333';
-                ctx.stroke();
             }
         },
 
@@ -147,58 +145,43 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
             const canvas = canvasRef.current;
             const ctx = canvas?.getContext('2d');
             if (!canvas || !ctx) return;
-
             const currentPoints = pointsRef.current;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (const p of currentPoints) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
                 ctx.fillStyle = '#82D930FF';
                 ctx.fill();
-                ctx.strokeStyle = '#333';
-                ctx.stroke();
             }
-
             const firstPoint = currentPoints.find(p => p.id === path[0]);
             if (!firstPoint) return;
-
             ctx.beginPath();
             ctx.moveTo(firstPoint.x, firstPoint.y);
-
             for (let i = 0; i < path.length; i++) {
                 const point = currentPoints.find(p => p.id === path[i]);
                 if (!point) continue;
-
                 ctx.lineTo(point.x, point.y);
-                ctx.strokeStyle = 'rgba(255, 165, 0, 0.8)';
+                ctx.strokeStyle = 'rgba(130,217,48, 0.3)';
                 ctx.lineWidth = 2;
                 ctx.stroke();
-
                 if (i > 0) {
                     const prevPoint = currentPoints.find(p => p.id === path[i - 1]);
                     if (prevPoint) {
                         drawDistance(ctx, prevPoint, point);
                     }
                 }
-
                 ctx.beginPath();
                 ctx.arc(point.x, point.y, 7, 0, 2 * Math.PI);
-                ctx.fillStyle = 'orange';
-                ctx.fill();
-                ctx.strokeStyle = '#333';
-                ctx.stroke();
-
+                ctx.fillStyle = '#82D930FF';
+                ctx.fill(); 
                 if (i < path.length - 1) {
                     await new Promise(res => setTimeout(res, 150));
                 }
             }
-
             if (path.length > 2) {
                 ctx.lineTo(firstPoint.x, firstPoint.y);
                 ctx.stroke();
             }
-
             const lastPoint = currentPoints.find(p => p.id === path[path.length - 1]);
             if (lastPoint) {
                 drawDistance(ctx, lastPoint, firstPoint);
@@ -209,34 +192,24 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
             const canvas = canvasRef.current;
             const ctx = canvas?.getContext('2d');
             if (!canvas || !ctx || !history.length) return;
-
             const currentPoints = pointsRef.current;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (const p of currentPoints) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
                 ctx.fillStyle = '#82D930FF';
                 ctx.fill();
-                ctx.strokeStyle = '#333';
-                ctx.stroke();
             }
-
             for (const path of history) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
                 for (const p of currentPoints) {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
                     ctx.fillStyle = '#82D930FF';
                     ctx.fill();
-                    ctx.strokeStyle = '#333';
-                    ctx.stroke();
                 }
-
                 const first = currentPoints.find(p => p.id === path[0]);
                 if (!first) continue;
-
                 ctx.beginPath();
                 ctx.moveTo(first.x, first.y);
                 for (let i = 1; i < path.length; i++) {
@@ -244,23 +217,17 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
                     if (p) ctx.lineTo(p.x, p.y);
                 }
                 ctx.lineTo(first.x, first.y);
-
                 ctx.strokeStyle = 'rgba(0, 100, 255, 0.5)';
                 ctx.lineWidth = 2;
                 ctx.stroke();
-
                 for (const id of path) {
                     const p = currentPoints.find(p => p.id === id);
                     if (!p) continue;
-
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, 7, 0, 2 * Math.PI);
-                    ctx.fillStyle = 'rgba(0, 100, 255, 0.7)';
+                    ctx.fillStyle = 'rgba(0, 100, 255, 0.5)';
                     ctx.fill();
-                    ctx.strokeStyle = '#333';
-                    ctx.stroke();
                 }
-
                 await new Promise(res => setTimeout(res, 300));
             }
         }
@@ -269,10 +236,17 @@ const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
     return (
         <canvas
             ref={canvasRef}
-            width={500}
-            height={350}
+            width={canvasSize.width}
+            height={canvasSize.height}
             onClick={handleCanvasClick}
-            style={{ border: '1px solid #ccc', background: '#212024', cursor: 'crosshair', borderRadius: '15px'}}
+            style={{
+                width: `${canvasSize.width}px`,
+                height: `${canvasSize.height}px`,
+                border: '2px solid #ccc',
+                background: '#212024',
+                cursor: 'crosshair',
+                borderRadius: '10px'
+            }}
         />
     );
 });

@@ -19,7 +19,7 @@ const NeuralNet: React.FC = () => {
     const [cur, setCur] = useState(-1);
 
     const command = (value: number) => {
-        return 1
+        return 13
     }
 
     const {grid, size, handleClick, sizeUp, sizeDown, setGrid} = useGrid(
@@ -169,12 +169,13 @@ const NeuralNet: React.FC = () => {
                     best={best.toString()}
                     onChange={handleChange}
                     orientation='row'
+                    bestColor='#CA50D9'
                 />
             </div>
             <div className='digit-container'>
                 <div className='div-digit'>
                 </div>
-                <p>{cur >= 0 && confidence[cur] !== undefined ? `${confidence[cur]}%` : "Loading..."}</p>
+                <p>{cur >= 0 && confidence[cur] !== undefined ? `${confidence[cur]}%` : "#@%"}</p>
                 <div className='div-digit'>
                 </div>
             </div>
