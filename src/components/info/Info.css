@@ -21,7 +21,7 @@
 .info-cluster-text p {
     font-family: Tektur, serif;
     font-weight: 400;
-    font-size: min(2vh, 2vw);
+    font-size: 2.5vh;
     line-height: 100%;
     letter-spacing: 0;
     color: #212024;
@@ -43,6 +43,10 @@
 
 .info-container svg {
     margin-right: 0.5rem;
-    width: min(1.5rem, 2.5vw);
-    height: min(1.5rem, 2.5vw);
+}
+
+@media (max-width: 500px) {
+    .info-container {
+        height: auto;
+    }
 }
