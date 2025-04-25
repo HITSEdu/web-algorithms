@@ -15,7 +15,6 @@ const PREFIX = "/genetic";
 
 const Genetic: React.FC = () => {
     const canvasRef = useRef<GraphCanvasHandle>(null);
-    const [fullness, setFullness] = useState(20);
     const [animation, setAnimation] = useState<boolean>(true);
     const animationRef = useRef(animation);
 
@@ -96,7 +95,7 @@ const Genetic: React.FC = () => {
     return (
         <div className='grid-container'>
 
-            <GraphCanvas ref={canvasRef} fullness={fullness} />
+            <GraphCanvas ref={canvasRef}/>
 
             <Info listOfClusters={infoData}/>
 

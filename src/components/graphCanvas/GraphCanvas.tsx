@@ -16,11 +16,8 @@ export interface GraphCanvasHandle {
     animateHistory: (history: number[][]) => Promise<void>;
 }
 
-interface GraphCanvasProps {
-    fullness: number;
-}
 
-const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(({ fullness }, ref) => {
+const GraphCanvas = forwardRef<GraphCanvasHandle>((_, ref) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [points, setPoints] = useState<Point[]>([]);
     const pointsRef = useRef<Point[]>([]);
@@ -77,6 +74,21 @@ const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(({ fullness 
             };
             setPoints(prev => [...prev, newPoint]);
         }
+    };
+
+    const calculateDistance = (p1: Point, p2: Point) => {
+        return Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    };
+
+    const drawDistance = (ctx: CanvasRenderingContext2D, p1: Point, p2: Point) => {
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2;
+        const distance = calculateDistance(p1, p2);
+
+        ctx.fillStyle = 'white';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(distance.toFixed(1), midX, midY - 10);
     };
 
     useImperativeHandle(ref, () => ({
@@ -163,6 +175,13 @@ const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(({ fullness 
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
+                if (i > 0) {
+                    const prevPoint = currentPoints.find(p => p.id === path[i - 1]);
+                    if (prevPoint) {
+                        drawDistance(ctx, prevPoint, point);
+                    }
+                }
+
                 ctx.beginPath();
                 ctx.arc(point.x, point.y, 7, 0, 2 * Math.PI);
                 ctx.fillStyle = 'orange';
@@ -178,6 +197,11 @@ const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(({ fullness 
             if (path.length > 2) {
                 ctx.lineTo(firstPoint.x, firstPoint.y);
                 ctx.stroke();
+            }
+
+            const lastPoint = currentPoints.find(p => p.id === path[path.length - 1]);
+            if (lastPoint) {
+                drawDistance(ctx, lastPoint, firstPoint);
             }
         },
 
