@@ -2,11 +2,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
-.grid-row {
-    margin-left: 4vw;
+.tree-container {
+    width: 90vw;
+    height: 50vh;
+}
+
+.tree-container p {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 5rem;
+    color: #D1D1D1;
+}
+
+.tree-textarea {
+    border-radius: 4%;
+    margin-bottom: 0.5rem;
+}
+
+.change-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding-bottom: 2rem;
 }
